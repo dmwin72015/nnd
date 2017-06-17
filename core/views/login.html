@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>blog-{titleName}</title>
+        <link rel="stylesheet" href="/static/css/tp-vote.css">
+        <script src="/static/js/common.js"></script>
+    </head>
+    <body>
+        <div id="bg"></div>
+        <div id="wraper" class="wraper">
+            <div class="login-box">
+                <header class="title">
+                    <h1 class="logo hide-text">
+                        投票
+                        <!-- <img src="/static/img/rio.png" alt="" style="width:130px;"> -->
+                    </h1>
+                    <h2 class="subtitle">公平公正、透明公开、真实有效</h2>
+                </header>
+                <input type="password" hidden>
+                <form id="myform">
+                    <div class="group-inputs">
+                        <div class="input-wraper loginname">
+                            <input type="text" placeholder="登录名" id="name">
+                            <label class="error">账号者密码错误</label>
+                        </div>
+                        <div class="input-wraper password ">
+                            <input type="password" placeholder="密码" id="password">
+                            <label class="error">账号者密码错误</label>
+                        </div>
+                    </div>
+                    <div class="group-inputs error hide" id="error">
+                        <div class="txt-wraper">
+                            错误信息
+                        </div>
+                    </div>
+                    <div class="group-btns login-btns">
+                        <span class="btn sub" id="btn_login">登录</span>
+                        <span class="btn reg" id="btn_reg">注册</span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+    <script src="/static/js/lib.js"></script>
+    <script src="/static/js/login.bundle.js"></script>
+</html>

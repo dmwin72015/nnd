@@ -1,0 +1,6 @@
+node_modules
+.idea
+log
+gulpfile.js
+public_back
+public
