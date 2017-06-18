@@ -5,12 +5,12 @@
 var index = function (req, res, next) {
     console.log(req.originalUrl);
 
-    res.render('user/my_memory.html',{
-        titleName:'个人相册'
+    res.render('user/my_memory.html', {
+        titleName: '个人相册',
+        contentClass: 'no-left'
     });
 
 };
-
 
 
 module.exports = {
