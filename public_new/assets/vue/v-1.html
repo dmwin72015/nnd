@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson-one</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <span v-once>This will never change: {{ msg }}</span>
+    <div v-bind:id="dynamicId"></div>
+    <button v-bind:disabled="canClick">Button</button>
+    <div v-bind:id="'list-' + id"></div>
+    <p v-if="seen">这是你能看见的</p>
+    <a v-bind:href="url" v-on:click="say">绑定了一个href</a>
+</div>
+</body>
+<script>
+    var data = {
+        name: '你就',
+        msg: 'this is a message!!!',
+        dynamicId: '啊哈哈',
+        canClick: 'false',
+        id: 'myid',
+        seen: 'true',
+        url:'//node.com/admin',
+        say:function(ev){
+            console.log(this);
+            ev.preventDefault();
+        }
+    };
+    var app = new Vue({
+        el: '#app',
+        data: data,
+        created: function () {
+            console.log('name is: ' + this.name);
+        }
+    });
+
+    app.$watch('name', function (newVal, oldVal) {
+
+        alert(newVal, oldVal);
+
+    });
+
+</script>
+</html>

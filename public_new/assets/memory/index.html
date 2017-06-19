@@ -149,7 +149,7 @@ function addTransitionEndEvent(ele, fn) {
             MozTransition: 'transitionend',
             OTransition: 'oTransitionEnd otransitionend',
             transition: 'transitionend'
-        }
+        };
         for (var name in transEndEventNames) {
             if (typeof style[name] === "string") {
                 return transEndEventNames[name]

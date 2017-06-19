@@ -6,10 +6,12 @@ const os = require('os');
 const Mac = {
     "base": '/xin/static_source',
     'imgs': '/xin/static_source/imgs/',
-    'css': '',
-    'js': '',
-    'cdn_base': 'E:\\html',
-    'cdn_ings': ''
+    'css': '/xin/static_source/css/',
+    'js': '/xin/static_source/js/',
+    'cdn_base': '//fis.com/',
+    'cdn_imgs': '//fis.com/imgs',
+    'cdn_css': '//fis.com/css/',
+    'cdn_js': '//fis.com/js/'
 };
 
 const win7 = {
@@ -20,7 +22,7 @@ const win7 = {
     'cdn_base':'//cdn.static.cc',
     'cdn_imgs': '//cdn.static.cc/imgs',
     'cdn_css': '//cdn.static.cc/css',
-    'cdn_js': '//cdn.static.cc/js',
+    'cdn_js': '//cdn.static.cc/js'
 };
 
 if (os.platform() == 'win32') {
