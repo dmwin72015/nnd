@@ -21,11 +21,28 @@ a {
     text-decoration: none;
 }
 
+h3 {
+    margin: 0;
+}
+
 
 /****************common end***********************/
 
 
 /****************tool start***********************/
+
+.clearfix:after,
+.half-sc-panel:after {
+    content: " ";
+    display: block;
+    clear: both;
+    height: 0;
+}
+
+.clearfix,
+.half-sc-panel {
+    zoom: 1;
+}
 
 
 /****************tool   end***********************/
@@ -37,10 +54,14 @@ a {
 html {
     overflow: hidden;
     -webkit-text-size-adjust: none;
+    -webkit-font-smoothing: antialiased;
 }
 
 html>body {
     min-height: 100%;
+    font-family: -apple-system-font, "Helvetica Neue", Tahoma, "PingFang SC", "lantinghei sc", "Microsoft Yahei", sans-serif;
+    font-size: 13px;
+    line-height: 1.4;
 }
 
 .intro-page {
@@ -174,7 +195,7 @@ html>body {
     position: absolute;
     width: 100%;
     top: 400px;
-    padding: 2px;
+    padding: 2px 2px 2px 0;
 }
 
 .navigation .left-nav {
@@ -224,16 +245,46 @@ html>body {
     height: 100%;
 }
 
-#main .top {
+#main .top{
     height: 400px !important;
-    background: #d213ca;
+    overflow: hidden;
 }
 
 #main .bottom {
+    overflow: hidden;
     background-color: #acd138;
 }
 
 .nav-placehold {
     position: relative;
     height: 60px;
+}
+
+.half-sc-panel .column {
+    height: 100%;
+    float: left;
+    border-left: 2px solid #fff;
+    margin-right: -2px;
+}
+
+.description {
+    width: 420px;
+    padding: 10px;
+    background-color: #21ace3;
+}
+
+.description .title {
+    color: #fff;
+    font-size: 24px;
+    text-align: center;
+    font-weight: lighter;
+}
+
+.description .desc-txt {
+    font-size: 16px;
+    color: #f2f2f2;
+}
+
+.image_01_g_p_p {
+    width: 320px;
 }
