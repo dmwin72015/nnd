@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson-one</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<ul id="app">
+    <li v-for="(item,index) in items">
+       {{parentMsg}} - {{index}}  - {{ item.message }}
+    </li>
+</ul>
+</body>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            parentMsg:'父级消息',
+            items: [{
+                code: '100',
+                message: '正确'
+            }, {
+                code: '101',
+                message: '错误'
+            }]
+        }
+    });
+</script>
+</html>
