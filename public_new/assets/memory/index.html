@@ -26,12 +26,14 @@
         </div>
     </div>
     <div id="main">
-        <div class="half-sc-panel  top">
+        <div class="half-sc-panel  top" id="description">
             <div class="column description">
-                <h3 class="title"> 董小胖 STORY 马小肉</h3>
-                <p class="desc-txt">
-                    在2015年的一个上午
-                </p>
+                <h3 class="title">{{title}}</h3>
+                <template v-for="item in lines">
+                    <p class="desc-txt" v-bind:class="style">
+                        {{item.text}}
+                    </p>
+                </template>
             </div>
             <div class="column image_01_g_p_p">
                 
@@ -71,6 +73,6 @@
         </div>
     </div>
 </body>
-<!--<script src="pic.js"></script>-->
+<script src="pic.js"></script>
 
 </html>

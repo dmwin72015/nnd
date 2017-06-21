@@ -6,16 +6,16 @@ function hideIntroPage() {
     return;
     addClass(oLogo, 'rotate');
     removeClass(oLogo, 'loading')
-    
 
-    oLogoHalf.forEach(function(ele, index, arr) {
+
+    oLogoHalf.forEach(function (ele, index, arr) {
         // addClass(ele, 'turn');
     });
     var oIntro = document.querySelector('.intro-page');
-    addTransitionEndEvent(oLogo, function(ev) {
+    addTransitionEndEvent(oLogo, function (ev) {
         ev.stopPropagation();
         ev.preventDefault();
-        addTransitionEndEvent(oIntro, function(ev) {
+        addTransitionEndEvent(oIntro, function (ev) {
             hide(oIntro);
         });
         addClass(oIntro, 'hide');
@@ -42,7 +42,7 @@ function addClass(el, cls) {
     /* istanbul ignore else */
     if (el.classList) {
         if (cls.indexOf(' ') > -1) {
-            cls.split(/\s+/).forEach(function(c) {
+            cls.split(/\s+/).forEach(function (c) {
                 return el.classList.add(c);
             });
         } else {
@@ -65,7 +65,7 @@ function removeClass(el, cls) {
     /* istanbul ignore else */
     if (el.classList) {
         if (cls.indexOf(' ') > -1) {
-            cls.split(/\s+/).forEach(function(c) {
+            cls.split(/\s+/).forEach(function (c) {
                 return el.classList.remove(c);
             });
         } else {
@@ -93,7 +93,7 @@ function addTransitionEndEvent(ele, fn) {
     var body = body = document.body || document.documentElement;
     var style = body.style;
 
-    var transitionEnd = (function() {
+    var transitionEnd = (function () {
         var transEndEventNames = {
             WebkitTransition: 'webkitTransitionEnd',
             MozTransition: 'transitionend',
@@ -108,7 +108,7 @@ function addTransitionEndEvent(ele, fn) {
     })();
 
     var isCalled = false;
-    ele.addEventListener(transitionEnd, function(ev) {
+    ele.addEventListener(transitionEnd, function (ev) {
         if (!isCalled) {
             fn && fn(ev);
             isCalled = true;
@@ -117,3 +117,28 @@ function addTransitionEndEvent(ele, fn) {
 }
 
 setTimeout(hideIntroPage, 1);
+
+var appDesc = new Vue({
+    el: '#description',
+    data: {
+        title: '董小胖 STORY 马小肉',
+        lines: [{
+            text: '在2015年的一个上午',
+            index: 0,
+            time: Date.now()
+        }, {
+            text: '一个胖胖的女孩出现在我的生活里',
+            index: 1,
+            time: Date.now()
+        }]
+    },
+    methods: {},
+    computed: {
+        style: function () {
+            console.log(arguments);
+            return {
+                'major': this.index % 2 === 1
+            }
+        }
+    }
+});
