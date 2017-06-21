@@ -132,7 +132,11 @@ var appDesc = new Vue({
             time: Date.now()
         }]
     },
-    methods: {},
+    methods: {
+        style:function(){
+            console.log(arguments);
+        }
+    },
     computed: {
         style: function () {
             console.log(arguments);

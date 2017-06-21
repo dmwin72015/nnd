@@ -21,8 +21,18 @@ a {
     text-decoration: none;
 }
 
-h1,h2,h3,h4,h5,h6 ,p{
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
     margin: 0;
+}
+
+img {
+    max-width: 100%;
 }
 
 
@@ -60,7 +70,7 @@ html {
 html>body {
     min-height: 100%;
     /*font-family: -apple-system-font, "Helvetica Neue", Tahoma, "PingFang SC", "lantinghei sc", "Microsoft Yahei", sans-serif;*/
-    font-family: Source Sans Pro,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif,"Microsoft Yahei";
+    font-family: Source Sans Pro, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif, "Microsoft Yahei";
     font-size: 13px;
     line-height: 1.4;
 }
@@ -246,9 +256,10 @@ html>body {
     height: 100%;
 }
 
-#main .top{
+#main .top {
     height: 400px !important;
     overflow: hidden;
+    border-top: 2px solid #fff;
 }
 
 #main .bottom {
@@ -256,24 +267,32 @@ html>body {
     background-color: #acd138;
 }
 
+.half-sc-panel {
+    width: 4000px;
+    background: #333;
+}
+
 .nav-placehold {
     position: relative;
     height: 60px;
 }
 
-.half-sc-panel .column {
-    height: 100%;
-    float: left;
-    border-left: 2px solid #fff;
-    margin-right: -2px;
-    background: #98b7ed;
+.column {
+    width: 320px;
+    background: transparent url('pixel-pattern.png') 0 0 repeat;
 }
 
-.description {
+.column {
+    height: 100%;
+    float: left;
+    border-right: 2px solid #fff;
+}
+
+.column.description {
     width: 420px;
     padding: 10px;
-    background-color: #21ace3;
     font-weight: 300;
+    background: #21ace3;
 }
 
 .description .title {
@@ -289,6 +308,78 @@ html>body {
     line-height: 2em;
 }
 
-.image_01_g_p_p {
-    width: 320px;
+.dmImg .img-box {
+    /*    border: 2px solid #fff;
+    margin: -2px -2px 0 0;*/
+}
+
+.img-box {
+    float: left;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.img-box>img {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.img-box .img-desc {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 5px;
+    background-color: #e52f7c;
+    color: #fff;
+    transition: transform 0.2s ease-out;
+    transform: translateY(100%);
+}
+
+.img-box:after {
+    position: absolute;
+    left: 0;
+    top: 0;
+    content: " ";
+    width: 100%;
+    height: 100%;
+    background: transparent url('pixel-pattern.png') 0 0 repeat;
+    opacity: 0.3;
+    transition: all 0.2s;
+}
+
+.img-box:hover:after {
+    opacity: 0;
+}
+
+.img-box:hover .img-desc {
+    transform: translateY(0%);
+}
+
+.g_p_p .img1 {
+    width: 100%;
+    height: 67%;
+}
+
+.g_p_p .img2,
+.g_p_p .img3 {
+    height: 33%;
+    width: 50%;
+}
+
+.p_p_g .img1 {
+    width: 40%;
+    height: 33%;
+}
+
+.p_p_g .img2 {
+    width: 60%;
+    height: 33%;
+}
+
+.p_p_g .img3 {
+    width: 100%;
+    height: 67%;
 }
