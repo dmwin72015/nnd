@@ -9,7 +9,7 @@ var conf = {
         port: '27017',
         db: 'spider'
     }
-}
+};
 module.exports = function(env) {
     var host = conf[env].host;
     var port = conf[env].port;

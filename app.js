@@ -36,6 +36,7 @@ loadRoute(app, {
 
 app.locals.globalName = '就按技术监督局按进度';
 
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
