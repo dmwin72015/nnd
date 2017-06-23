@@ -4,6 +4,7 @@ var mod = {
 
 var baseMod = require('./baseModel');
 var userMod = new baseMod('user');
+// var connectDb = require('../lib/connectDB');
 
 
 module.exports = {

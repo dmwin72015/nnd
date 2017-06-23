@@ -4,6 +4,6 @@
 module.exports.info = function (title, content) {
     "use strict";
     console.log('*********' + (title || '') + '*********');
-    console.log(content);
+    // console.log(content);
     console.log('*********' + (title || '') + '*********');
 };

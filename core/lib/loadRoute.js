@@ -83,7 +83,7 @@ var initRoute = function(app, opt) {
         routeFactory(rFilePath, reqPath);
     });
     console.log('+==================================================');
-    console.log(routes);
+    // console.log(routes);
     console.log('+==================================================');
     app.use('/', router);
 };

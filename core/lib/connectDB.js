@@ -2,24 +2,9 @@
  * Created by mjj on 2017/6/22.
  */
 const MongoClient = require('mongodb').MongoClient;
-const MongoConf = require('../conf/mongo-conf');
+const MongoConf = require('../conf/mongo-conf')('dev');
 const co = require('co');
 const mongo = require('mongoskin');
-
-
-var db = mongo.db("mongodb://localhost:27017/integration_tests", {native_parser: true});
-
-db.bind('article');
-
-db.article.find().toArray(function (err, items) {
-    db.close();
-});
-
-
-
-
-
-
 
 let DBConf = {
     poolSize: 6,
@@ -28,6 +13,21 @@ let DBConf = {
         console.log(message);
     }
 };
+var db = mongo.db(MongoConf.url, DBConf);
+
+var col = db.bind('spider_test');
+
+col.find({}).limit(3).toArray(function (err, items) {
+    console.log(items);
+    console.log('<========================>');
+});
+
+db['spider_test'].find({}).toArray(function (err, items) {
+    db.close();
+    console.log(db);
+});
+
+
 
 function connectDb(url) {
 
