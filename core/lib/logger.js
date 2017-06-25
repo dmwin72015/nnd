@@ -3,7 +3,7 @@
  */
 module.exports.info = function (title, content) {
     "use strict";
-    console.log('*********' + (title || '') + '*********');
+    console.log('======================' + (title || '') + '======================\n');
     // console.log(content);
-    console.log('*********' + (title || '') + '*********');
+    console.log('\n======================' + (title || '') + '======================');
 };

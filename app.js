@@ -5,8 +5,11 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var tmplEng = require('./core/view_filter/filter.js');
 var app = express();
+
+console.log('★★★★★★★★★★★★★★★★★★★★★★★★');
+console.log('★★★★★★★★【APPstrart】★★★★★★★★★★');
+console.log('★★★★★★★★★★★★★★★★★★★★★★★★\n');
 
 
 // uncomment after placing your favicon in /public
@@ -24,6 +27,8 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public_new')));
 
+
+var tmplEng = require('./core/view_filter/filter.js');
 app.engine('html', tmplEng);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/core/views');

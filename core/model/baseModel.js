@@ -14,7 +14,7 @@ class BaseMod {
         // this.collection = null;
         this.status = 'close';
         var fn = this.init(collectionName);
-        console.log(fn);
+        // console.log(fn);
     }
 
     init(collectionName) {

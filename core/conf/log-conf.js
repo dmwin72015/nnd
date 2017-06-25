@@ -9,7 +9,7 @@ var formatLog = {
 
 
 module.exports = function(app, logDir) {
-
+    console.log('======================log setting=============\n');
     //判断路径时候存在，不存在创建
     fs.existsSync(logDir) || fs.mkdirSync(logDir);
 
@@ -20,12 +20,13 @@ module.exports = function(app, logDir) {
         frequency: 'daily',
         verbose: true
     });
-
+    
     app.use(morgan(formatLog['my'], {
         stream: accessLogStream,
         // skip: function(req, res) {//过滤条件，状态吗《400
         //     return res.statusCode < 400;
         // }
     }));
+    console.log('\n=================================================');
     return app;
 }

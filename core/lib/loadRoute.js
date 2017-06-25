@@ -82,9 +82,9 @@ var initRoute = function(app, opt) {
         let reqPath = ele.replace(routeBasePath.replace(/\\/g,'/'), '');
         routeFactory(rFilePath, reqPath);
     });
-    console.log('+==================================================');
+    console.log('+===================路由器======================\n');
     // console.log(routes);
-    console.log('+==================================================');
+    console.log('\n+===================路由器======================');
     app.use('/', router);
 };
 
