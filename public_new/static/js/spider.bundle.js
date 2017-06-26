@@ -236,8 +236,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
                     $(this).removeClass('error');
                     $('#loginJiraBtn').next().remove();
                 });
-                $('#jira_name').val('dongmin');
-                $('#jira_pwd').val('dong_2017xIn');
+                $('#jira_name').val('');
+                $('#jira_pwd').val('');
             },
             strict: false
         });

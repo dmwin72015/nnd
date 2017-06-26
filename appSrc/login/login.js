@@ -26,7 +26,7 @@ define('login', ['particles.js', './config.js', '../lib/jQuery-3.1.1.min.js'], f
         $('#btn_reg').click(function() {
             return false;
         });
-        $('#name').focus(function() {
+        $('#name,#password').focus(function() {
             hideError($(this).next());
         });
         $('#password').keydown(function(ev) {

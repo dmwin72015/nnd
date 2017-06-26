@@ -1703,7 +1703,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         $('#btn_reg').click(function() {
             return false;
         });
-        $('#name').focus(function() {
+        $('#name,#password').focus(function() {
             hideError($(this).next());
         });
         $('#password').keydown(function(ev) {
