@@ -5,8 +5,10 @@
 const _ = require('lodash');
 const EventEmitter = require('events');
 
-const ERR_NO_DATA = -1;     //无数据插入
-const ERR_NO_unID = -2;     //缺少唯一ID
+const ERR_LOST_FIELD = exports.ERR_LOST_FIELD = -1;                 //缺少必须的字段
+const ERR_NOT_IN_RANGE = exports.ERR_NOT_IN_RANGE =-2;              //字段验证不通过
+const ERR_TYPE_FIELD = exports.ERR_TYPE_FIELD = -3;                 //类型错误
+const ERR_NOT_VALID = exports.ERR_NOT_VALID = -3;                   //验证不通过
 
 
 /*
@@ -78,9 +80,10 @@ Schema.prototype.valid = function (data) {
         var key = this.mustKeys[i];
         if (data[key] === void 0) {
             validators.push({
+                code: ERR_LOST_FIELD,
                 field: key,
                 value: data[key],
-                msg: '字段[' + key + ']必填字段'
+                msg: '字段[' + key + ']为必填字段'
             });
             // _this._emit.emit('key:lost', key, data[key], '缺少字段');
             return;
@@ -113,6 +116,7 @@ Schema.prototype.valid = function (data) {
         } else {
             if ((_cond.type || 'String') !== valType) {
                 validators.push({
+                    code: ERR_TYPE_FIELD,
                     field: key,
                     value: data[key],
                     msg: 'type error,[' + key + '] must be ' + _cond.type
@@ -123,6 +127,7 @@ Schema.prototype.valid = function (data) {
                     case 'Number':
                         if ((_.isNumber(_cond.min) && val < _cond.min) || (_.isNumber(_cond.max) && val > _cond.max)) {
                             validators.push({
+                                code: ERR_NOT_IN_RANGE,
                                 field: key,
                                 value: data[key],
                                 msg: 'range error,[' + key + '] length must be [' + min + '-' + max + '], current:' + val
@@ -140,6 +145,7 @@ Schema.prototype.valid = function (data) {
 
                             if (val.length < min || val.length > max) {
                                 validators.push({
+                                    code: ERR_NOT_IN_RANGE,
                                     field: key,
                                     value: data[key],
                                     msg: 'range error,[' + key + '] length must be [' + min + '-' + max + ']'
@@ -150,6 +156,7 @@ Schema.prototype.valid = function (data) {
                         } else if (_.isNumber(_cond.length)) {
                             if (val.length !== _cond.length) {
                                 validators.push({
+                                    code: ERR_NOT_IN_RANGE,
                                     field: key,
                                     value: data[key],
                                     msg: 'length error,[' + key + '] length must be [' + _cond.length + ']'
@@ -159,6 +166,7 @@ Schema.prototype.valid = function (data) {
                         } else if (_cond.enum && Array.isArray(_cond.enum)) {
                             if (_cond.enum.indexOf(val) === -1) {
                                 validators.push({
+                                    code: ERR_NOT_IN_RANGE,
                                     field: key,
                                     value: data[key],
                                     msg: 'range error,[' + key + '] length must be in [' + _cond.enum + ']'
@@ -173,7 +181,7 @@ Schema.prototype.valid = function (data) {
                         }
                         break;
                     case 'Date':
-
+                        
                         break;
                 }
             }

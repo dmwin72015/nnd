@@ -17,7 +17,7 @@ const httpType = ['GET', 'POST', 'DELETE', 'PUT', 'HEAD', 'USE', 'ALL'];
 const httpType2 = ['PATCH', 'CONNECT', 'OPTIONS', 'TRACE'];
 const httpDefault = 'GET';
 
-let routeBasePath = ''
+let routeBasePath = '';
 
 //加载路由文件
 let loadFile = function(filePath, opt) {
@@ -83,7 +83,7 @@ var initRoute = function(app, opt) {
         routeFactory(rFilePath, reqPath);
     });
     console.log('+===================路由器======================\n');
-    // console.log(routes);
+    console.log(routes);
     console.log('\n+===================路由器======================');
     app.use('/', router);
 };

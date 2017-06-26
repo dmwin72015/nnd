@@ -7,7 +7,6 @@ var adminAll = function(req, res, next) {
         name: '董敏',
         email:'dong@163.com'
     };
-    console.log(req.originalUrl);
 
     if (query.a) {
         res.send(dataType(method, '所有admin下路径'));

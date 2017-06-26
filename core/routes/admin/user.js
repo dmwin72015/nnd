@@ -20,15 +20,17 @@ let reqGetHander = {
         res.render('user/adminer.html');
     }
 };
+
 let reqPostHander = {
 
-    addAdminer: function (req, res, next) {
+    add: function (req, res, next) {
         "use strict";
-        var data = req.body;
-        userMod.insertOne(data, function (err, data) {
-
-            res.render('user/adminer.html');
-
+        userMod.insertOne(req.body, function (err, data) {
+            if(err){
+                res.json(err);
+            }else{
+                res.json(data);
+            }
         });
     }
 };
