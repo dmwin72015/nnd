@@ -12,5 +12,12 @@ function test(req, res , next){
 module.exports = {
     '*': {
         'all': test
+    },
+
+    '/:action':{
+    	get:function(){
+
+    		
+    	}
     }
 }

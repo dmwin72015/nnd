@@ -25,6 +25,14 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 
+app.use(session({
+  secret: 'dongmin-pc',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {maxAge: 60000}
+}))
+
+
 var tmplEng = require('./core/view_filter/filter.js');
 app.engine('html', tmplEng);
 app.set('view engine', 'html');
