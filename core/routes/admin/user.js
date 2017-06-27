@@ -37,19 +37,21 @@ let reqPostHander = {
 
 module.exports = {
     '/': function (req, res, next) {
-        userMod.findByName('dongmin', function (err, data) {
-            "use strict";
-            res.render('user/index.html');
-            return;
-            if (err || !data) {
-                next();
-                return;
-            }
-            if (data) {
-
-
-            }
-        });
+        res.render('user/index.html');
+        // return;
+        // userMod.findByName('dongmin', function (err, data) {
+        //     "use strict";
+        //     res.render('user/index.html');
+        //     return;
+        //     if (err || !data) {
+        //         next();
+        //         return;
+        //     }
+        //     if (data) {
+        //
+        //
+        //     }
+        // });
     },
 
     '/:action': {

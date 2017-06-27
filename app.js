@@ -4,6 +4,7 @@ var fs = require('fs');
 var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 var app = express();
 
 console.log('★★★★★★★★★★★★★★★★★★★★★★★★');
@@ -39,29 +40,29 @@ loadRoute(app, {
 });
 
 // catch 404 and forward to error handler
-// app.use(function (req, res, next) {
-//     var err = new Error('Not Found');
-//     err.status = 404;
-//     // if (req.originalUrl.match(/.*\.(js|css|jpg|gif|png)$/)) {
-//     //     // res.sendStatus(404).end('');
-//     //
-//     //     console.log(req.originalUrl,'-----404');
-//     //
-//     //     res.status(500).send('NOT FOUND');
-//     //
-//     // } else {
-//     //     res.render('40x', {
-//     //         title: err.status,
-//     //         message: '不好意思啊！！！404'
-//     //     });
-//     // }
-//     res.sendStatus(404);
-//     return;
-//     res.render('40x', {
-//         title: err.status,
-//         message: '不好意思啊！！！404'
-//     });
-// });
+app.use(function (req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    // if (req.originalUrl.match(/.*\.(js|css|jpg|gif|png)$/)) {
+    //     // res.sendStatus(404).end('');
+    //
+    //     console.log(req.originalUrl,'-----404');
+    //
+    //     res.status(500).send('NOT FOUND');
+    //
+    // } else {
+    //     res.render('40x', {
+    //         title: err.status,
+    //         message: '不好意思啊！！！404'
+    //     });
+    // }
+    res.sendStatus(404);
+    return;
+    res.render('40x', {
+        title: err.status,
+        message: '不好意思啊！！！404'
+    });
+});
 
 // error handler
 // app.use(function (err, req, res, next) {
