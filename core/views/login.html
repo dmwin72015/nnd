@@ -11,11 +11,11 @@
     <link rel="stylesheet" href="/assets/css/login-add.css">
     <style>
         .slide-fade-enter-active {
-            transition: all .3s ease;
+            transition: all .3s ease-out;
         }
 
         .slide-fade-leave-active {
-            transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+            transition: all .2s ease-out;
         }
 
         .slide-fade-enter, .slide-fade-leave-to
@@ -70,8 +70,8 @@
         </form>
     </div>
 </div>
-<div class="mask hide" id="mask">
-    <transition name="slide-fade">
+<div class="mask" id="mask" v-bind:class="{show:isShow}">
+    <transition name="slide-fade" v-on:after-leave="afterLeave"  v-on:leave="leave">
         <reg-view v-if="reg"></reg-view>
     </transition>
 </div>

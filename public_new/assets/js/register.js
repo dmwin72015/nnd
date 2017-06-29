@@ -1,5 +1,5 @@
 ;
-(function (global, $) {
+(function(global, $) {
     if (!$ && global.jQuery !== $) return;
     // oPicCode.onclick = function (ev) {
     //     this.src = '/captcha/new.gif?t=' + Date.now();
@@ -16,16 +16,16 @@
             </h3>\
             <div class="box-body">\
                 <div class="reg-view">\
-                    <p><input type="text" name="reg_name"  v-bind:placeholder="tip_name"></p>\
-                    <p><input type="text" name="reg_pwd"  v-bind:placeholder="tip_pwd"></p>\
-                    <p><input type="text" name="reg_pwd"  v-bind:placeholder="tip_pwd2"></p>\
-                    <p><input type="text" name="reg_picode"  v-bind:placeholder="tip_pcode"/><span class="pic-code"><img :src="tcha_url" :alt="tip_pcode"></span></p>\
+                    <p><input type="text" name="reg_name"  v-bind:placeholder="tip_name" v-model="uname" v-on:keyup="valid"></p>\
+                    <p><input type="text" name="reg_pwd"  v-bind:placeholder="tip_pwd" v-model="upwd1" v-on:keyup="valid"></p>\
+                    <p><input type="text" name="reg_pwd"  v-bind:placeholder="tip_pwd2" v-model="upwd2" v-on:keyup="valid"></p>\
+                    <p><input type="text" name="reg_picode"  v-bind:placeholder="tip_pcode" v-model="ucaptcha" v-on:keyup="valid"/><span class="pic-code"><img :src="tcha_url" :alt="tip_pcode"></span></p>\
                     <p><input type="button" value="确定" v-on:click="reg"></p>\
                 </div>\
             </div>\
         </div>',
         props: [],
-        data: function () {
+        data: function() {
             return {
                 title: '注册',
                 tip_name: '用户名(必须是邮箱)',
@@ -36,39 +36,36 @@
                 classObj: {
                     'box': true,
                     'reg-box': true
-                }
+                },
+                uname: '',
+                upwd1: '',
+                upwd2: '',
+                ucaptcha: ''
             }
         },
         methods: {
-            hide: function () {
-                this.reg = false;
+            hide: function() {
+                mask.$data.reg = false;
             },
-            reg: function () {
-
+            reg: function() {
+                var _data = this.$data;
+                _data.uname = '张三'
+            },
+            valid: function() {
+                console.log(this.$data);
+            }
+        },
+        mounted: function(argument) {
+            var dom = this.$el;
+            var h = dom.offsetHeight;
+            var H = window.innerHeight;
+            if (h > window.innerHeight) {
+                dom.style.marginTop = 0;
+            } else {
+                dom.style.marginTop = (H - h) / 2 + 'px';
             }
         }
     });
-
-    var mask_comp = {
-        template: '<div class="mask"></div>',
-        created: function () {
-            this.hello();
-        },
-        methods: {
-            hello: function () {
-                console.log('hello from mask_comp!')
-            }
-        },
-        render: function () {
-
-        }
-    };
-
-    var Component = Vue.extend({
-        mixins: [mask_comp, regView]
-    });
-
-    var component = new Component();
 
     var login = new Vue({
         el: '#myform',
@@ -94,7 +91,7 @@
         components: {
             'err-tip': {
                 template: '<label>{{msg}}</label>',
-                data: function () {
+                data: function() {
                     return {
                         //TODO:父级变量传递
                         msg: this.$parent.errMsg || ''
@@ -103,7 +100,7 @@
             }
         },
         methods: {
-            login: function (ev) {
+            login: function(ev) {
                 var _this = this;
                 if (this.valid()) {
                     $.ajax({
@@ -113,16 +110,17 @@
                             uname: _this.uname,
                             upwd: _this.upwd
                         }
-                    }).done(function (data, text, xhr) {
+                    }).done(function(data, text, xhr) {
                         console.log(data);
                     })
                 }
             },
-            reg: function (ev) {
+            reg: function(ev) {
                 mask.$mount('#mask');
+                mask.$data.isShow = true;
                 mask.$data.reg = true;
             },
-            rmTip: function (type) {
+            rmTip: function(type) {
                 this.errMsg = '';
                 if (type == 'name') {
                     this.nameErr.status = false;
@@ -130,7 +128,7 @@
                     this.pwdErr.status = false;
                 }
             },
-            valid: function () {
+            valid: function() {
                 var uname = this.uname;
                 var upwd = this.upwd;
                 if (uname.length < 1) {
@@ -155,31 +153,28 @@
 
     var mask = new Vue({
         data: {
-            reg: false
+            reg: false,
+            isShow: false,
+            isHide: true
         },
-        created: function () {
+        created: function() {
             // console.log(this.$el);
             // this.$el.classList.remove('hide');
+            // this.isHide = false;
         },
-        'mounted': function () {
-            this.$el.classList.remove('hide');
+        'mounted': function() {
+            console.log(this.$el.classList);
+        },
+        methods: {
+            // TODO:淡入淡出效果
+            leave: function() {
+                // this.isShow = false;
+            },
+            afterLeave: function() {
+                // this.$el.classList.add('hide');
+                this.isShow = false;
+            }
         }
     });
     global.login = login;
-
-    Vue.component('test-comp', {
-        render: function (createElement) {
-            return createElement(
-                'h' + this.level,   // tag name 标签名称
-                this.$slots.default // 子组件中的阵列
-            )
-        },
-        props: {
-            level: {
-                type: Number,
-                required: true
-            }
-        }
-    })
-
 })(window, jQuery);
