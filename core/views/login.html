@@ -9,79 +9,77 @@
     <link rel="stylesheet" href="/static/css/tp-vote.css">
     <script src="/static/js/common.js"></script>
     <link rel="stylesheet" href="/assets/css/login-add.css">
+    <style>
+        .slide-fade-enter-active {
+            transition: all .3s ease;
+        }
+
+        .slide-fade-leave-active {
+            transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+        }
+
+        .slide-fade-enter, .slide-fade-leave-to
+            /* .slide-fade-leave-active for <2.1.8 */
+        {
+            transform: translateY(-10px);
+            opacity: 0;
+        }
+
+    </style>
 </head>
 
 <body>
-    <div id="bg"></div>
-    <div id="wraper" class="wraper">
-        <header class="top-nav">
-            <!--<a href="javascript:;" class="reg-btn">注册</a>-->
-        </header>
-        <div class="login-box">
-            <header class="title">
-                <h1 class="logo hide-text">
+<div id="bg"></div>
+<div id="wraper" class="wraper">
+    <header class="top-nav">
+        <!--<a href="javascript:;" class="reg-btn">注册</a>-->
+    </header>
+    <div class="login-box">
+        <header class="title">
+            <h1 class="logo hide-text">
                 投票
                 <!-- <img src="/static/img/rio.png" alt="" style="width:130px;"> -->
             </h1>
-                <h2 class="subtitle">公平公正、透明公开、真实有效</h2>
-            </header>
-            <input type="password" hidden>
-            <form id="myform">
-                <div class="group-inputs">
-                    <div class="input-wraper loginname">
-                        <input type="text" placeholder="登录名" id="name">
-                        <label class="error">账号者密码错误</label>
-                    </div>
-                    <div class="input-wraper password ">
-                        <input type="password" placeholder="密码" id="password">
-                        <label class="error">账号者密码错误</label>
-                    </div>
+            <h2 class="subtitle">公平公正、透明公开、真实有效</h2>
+        </header>
+        <input type="password" hidden>
+        <form id="myform">
+            <div class="group-inputs">
+                <div class="input-wraper loginname">
+                    <input type="text" placeholder="登录名" v-on:focus="rmTip('name')" v-model.trim="uname">
+                    <transition name="slide-fade">
+                        <err-tip v-if="nameErr.status" v-bind:class="errClass"></err-tip>
+                    </transition>
                 </div>
-                <div class="group-inputs error hide" id="error">
-                    <div class="txt-wraper">
-                        错误信息
-                    </div>
-                </div>
-                <div class="group-btns login-btns">
-                    <span class="btn sub" id="btn_login">登录</span>
-                    <span class="btn reg" id="btn_reg">注册</span>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="mask">
-        <div class="box reg-box">
-            <h3 class="box-head">
-            <span class="title">注册</span>
-            <a href="javascript:;" class="close-regBox">关闭按钮</a></h3>
-            <div class="box-body">
-                <div class="reg-view">
-                    <p>
-                        <input type="text" name="reg_name" id="reg_name" placeholder="用户名">
-                    </p>
-                    <p>
-                        <input type="text" name="reg_pwd" id="reg_pwd" placeholder="密码">
-                    </p>
-                    <p>
-                        <input type="text" name="reg_pwd" id="reg_pwd_repeat" placeholder="确认密码">
-                    </p>
-                    <p>
-                        <input type="text" name="reg_picode" id="reg_picCode" placeholder="图片码" />
-                        <span class="pic-code">
-                        <img src="/captcha/new.gif?t=" alt="">
-                    </span>
-                    </p>
-                    <p>
-                        <input type="button" value="确定" id="reg_enter">
-                    </p>
+                <div class="input-wraper password ">
+                    <input type="password" placeholder="密码" v-on:focus="rmTip('pwd')" v-model.trim="upwd">
+                    <transition name="slide-fade">
+                        <err-tip v-if="pwdErr.status" v-bind:class="errClass"></err-tip>
+                    </transition>
                 </div>
             </div>
-        </div>
+            <div class="group-inputs error hide" id="error">
+                <div class="txt-wraper">
+                    错误信息
+                </div>
+            </div>
+            <div class="group-btns login-btns">
+                <span class="btn sub" v-on:click="login">登录</span>
+                <span class="btn reg" v-on:click="reg">注册</span>
+            </div>
+        </form>
     </div>
-    </div>
+</div>
+<div class="mask hide" id="mask">
+    <transition name="slide-fade">
+        <reg-view v-if="reg"></reg-view>
+    </transition>
+</div>
+<component :is="mask_comp"></component>
 </body>
 <script src="/assets/js/jquery-3.2.1.js"></script>
 <script src="/static/js/lib.js"></script>
 <script src="/static/js/login.bundle.js"></script>
+<script src="/assets/js/vue.js"></script>
 <script type="text/javascript" src="/assets/js/register.js"></script>
 </html>
