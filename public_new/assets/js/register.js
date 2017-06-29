@@ -8,7 +8,7 @@
         template: '<div class="mask"></div>'
     });
 
-    Vue.component('reg-view', {
+    var regView = Vue.component('reg-view', {
         template: '<div v-bind:class="classObj">\
             <h3 class="box-head">\
                 <span class="title">{{title}}</span>\
@@ -35,7 +35,7 @@
                 tcha_url: '/captcha/new.gif',
                 classObj: {
                     'box': true,
-                    'reg-box':true
+                    'reg-box': true
                 }
             }
         },
@@ -49,6 +49,26 @@
         }
     });
 
+    var mask_comp = {
+        template: '<div class="mask"></div>',
+        created: function () {
+            this.hello();
+        },
+        methods: {
+            hello: function () {
+                console.log('hello from mask_comp!')
+            }
+        },
+        render: function () {
+
+        }
+    };
+
+    var Component = Vue.extend({
+        mixins: [mask_comp, regView]
+    });
+
+    var component = new Component();
 
     var login = new Vue({
         el: '#myform',
@@ -146,4 +166,20 @@
         }
     });
     global.login = login;
+
+    Vue.component('test-comp', {
+        render: function (createElement) {
+            return createElement(
+                'h' + this.level,   // tag name 标签名称
+                this.$slots.default // 子组件中的阵列
+            )
+        },
+        props: {
+            level: {
+                type: Number,
+                required: true
+            }
+        }
+    })
+
 })(window, jQuery);
