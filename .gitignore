@@ -1,6 +1,6 @@
 node_modules
 .idea
 log
-gulpfile.js
+# gulpfile.js
 public_back
 public
