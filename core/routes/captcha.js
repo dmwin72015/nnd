@@ -3,30 +3,36 @@
  */
 const svgCaptcha = require('svg-captcha');
 
+const captchaOpt = {
+    color: true,
+    size: 6,
+    noise: 3,
+    fontSize: 70,
+    background:'#f3f3f3',
+    width:160,
+    height:65
+};
+
 // svgCaptcha.loadFont('/xin/memory/nnd/public_new/assets/font/FontAwesome.otf');
 // svgCaptcha.options.fontSize = '100';
 
 module.exports = {
-    '/': function (req, res, next) {
+    '/': function(req, res, next) {
         res.sendStatus(403).end();
     },
-    'new.gif': function (req, res, next) {
-        var text = '中华FUNC';
-        // var captcha = svgCaptcha.create({
-        //     color:true,
-        //     size:6
-        // });
-        var svg = svgCaptcha(text, {
-            color: true,
-            size: 6
-        });
-        req.session.captcha = text;
+    'new.gif': function(req, res, next) {
+        // var captcha = svgCaptcha.create(captchaOpt);
+        var captcha = svgCaptcha.createMathExpr(captchaOpt);
+        req.session.captcha = captcha.text;
         res.set('Content-Type', 'image/svg+xml');
-        res.send(svg);
+        res.send(captcha.data);
     },
-    'valid': function (req, res, next) {
+    'valid': function(req, res, next) {
         if (!req.session.captcha) {
-            res.json({'code': '1001', 'msg': '请刷新页面重试'});
+            res.json({
+                'code': '1001',
+                'msg': '请刷新页面重试'
+            });
             return;
         }
         let method = req.method.toLowerCase();
@@ -36,7 +42,10 @@ module.exports = {
         } else if (method == 'post') {
             cap_val = req.body.val;
         }
-        if (!cap_val) res.json({code: -1, msg: '请求错误'});
+        if (!cap_val) res.json({
+            code: -1,
+            msg: '请求错误'
+        });
         var _data = {
             sess_cap: req.session.captcha,
             captcha: cap_val.toUpperCase()
