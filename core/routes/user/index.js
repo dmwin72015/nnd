@@ -2,7 +2,12 @@ const userMod = require('../../model/userMod');
 
 let actions = {
 
-    add: function (req, res, next) {
+    reg: function (req, res, next) {
+
+        var data = req.body;
+
+        console.log(data);
+
         userMod.insertOne(req.body, function (err, data) {
             if (err) {
                 res.json(err);
@@ -13,6 +18,10 @@ let actions = {
     },
 
     del: function () {
+
+
+    },
+    reg: function () {
 
 
     }

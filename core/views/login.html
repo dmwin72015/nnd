@@ -43,24 +43,25 @@
                     </div>
                 </div>
                 <div class="group-btns login-btns">
-                    <span class="btn sub" id="btn_login">登录</span>
-                    <span class="btn reg" id="btn_reg">注册</span>
+                    <span class="btn sub" id="btn_login" v-on:click="login">登录</span>
+                    <span class="btn reg" id="btn_reg" v-on:click="reg">注册</span>
                 </div>
             </form>
         </div>
     </div>
-    <div class="mask">
+    <div class="mask" id="mask">
         <div class="box reg-box">
             <h3 class="box-head">
-            <span class="title">注册</span>
-            <a href="javascript:;" class="close-regBox">关闭按钮</a></h3>
+                <span class="title">注册</span>
+                <a href="javascript:;" class="close-regBox">关闭按钮</a>
+            </h3>
             <div class="box-body">
                 <div class="reg-view">
                     <p>
-                        <input type="text" name="reg_name" id="reg_name" placeholder="用户名">
+                        <input type="text" name="reg_name" id="reg_name" placeholder="用户名(必须是邮箱)">
                     </p>
                     <p>
-                        <input type="text" name="reg_pwd" id="reg_pwd" placeholder="密码">
+                        <input type="text" name="reg_pwd" id="reg_pwd" placeholder="密码(6-18位,必须包含字母、数字、特殊字符)">
                     </p>
                     <p>
                         <input type="text" name="reg_pwd" id="reg_pwd_repeat" placeholder="确认密码">
@@ -78,10 +79,10 @@
             </div>
         </div>
     </div>
-    </div>
 </body>
 <script src="/assets/js/jquery-3.2.1.js"></script>
 <script src="/static/js/lib.js"></script>
 <script src="/static/js/login.bundle.js"></script>
+<script src="/assets/js/vue.js"></script>
 <script type="text/javascript" src="/assets/js/register.js"></script>
 </html>
