@@ -6,23 +6,23 @@ const svgCaptcha = require('svg-captcha');
 // svgCaptcha.loadFont('/xin/memory/nnd/public_new/assets/font/FontAwesome.otf');
 // svgCaptcha.options.fontSize = '100';
 
+const options = {
+    color:true,
+    noise:3,
+    size:6,
+    background:'#f2f2f2'
+};
+
 module.exports = {
     '/': function (req, res, next) {
         res.sendStatus(403).end();
     },
     'new.gif': function (req, res, next) {
-        var text = '中华FUNC';
-        // var captcha = svgCaptcha.create({
-        //     color:true,
-        //     size:6
-        // });
-        var svg = svgCaptcha(text, {
-            color: true,
-            size: 6
-        });
-        req.session.captcha = text;
+        var captcha = svgCaptcha.createMathExpr(options);
+        // var svg = svgCaptcha(text, options);
+        req.session.captcha = captcha.text;
         res.set('Content-Type', 'image/svg+xml');
-        res.send(svg);
+        res.send(captcha.data);
     },
     'valid': function (req, res, next) {
         if (!req.session.captcha) {

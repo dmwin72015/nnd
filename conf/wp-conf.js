@@ -13,7 +13,7 @@ var entry = function(env) {
         lib: ['./appSrc/lib/lib.js', './appSrc/lib/keycode.js', './appSrc/lib/cornify.js','./appSrc/lib/jQuery-3.1.1.min.js','lodash'],
         login: ['./appSrc/login/login.js'],
         dashboard: ['./appSrc/login/dashboard.js'],
-        vote: ['./appSrc/less/toupiao.css', './appSrc/less/common.less'],
+        vote: ['./appSrc/less/toupiao.less', './appSrc/less/common.less'],
         spider:['./appSrc/less/spider.less','./appSrc/login/spider.js'],
         'sp-art':['./appSrc/login/sp_art.js']
         // libcss:['./appSrc/css/font-awesome.min.css']

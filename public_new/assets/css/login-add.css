@@ -14,11 +14,11 @@ html>body {
 .group-btns.login-btns .btn:first-child {
     flex: 1;
 }
-
-.group-btns.login-btns #btn_reg {
+.btn.reg{
     margin-left: 5px;
     width: 70px;
 }
+
 
 .wraper {
     perspective: 500px;
@@ -105,16 +105,15 @@ html>body {
     width: 260px;
 }
 
-#reg_picCode {
-    width: 140px;
+#reg_picCode,.reg-view input[name="reg_picode"] {
+    width: 170px;
 }
-
 .pic-code {
     margin-left: 10px;
     width: 80px;
     display: inline-block;
-    vertical-align: top;
-    border: 1px solid #e1e1e7;
+    vertical-align: middle;
+    /*border: 1px solid #e1e1e7;*/
 }
 .pic-code>img{
    width: 100%;

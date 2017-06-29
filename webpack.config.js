@@ -18,7 +18,7 @@ module.exports = {
         login: ['./appSrc/login/login.js'],
         dashboard: ['./appSrc/login/dashboard.js'],
         // home: ['./appSrc/main.js', './appSrc/mod1.js', './appSrc/mod2.js', './appSrc/mod3.js'],
-        vote: ['./appSrc/less/toupiao.css','./appSrc/less/common.less']
+        vote: ['./appSrc/less/toupiao.less','./appSrc/less/common.less']
     },
     output: {
         // path: __dirname + '/public_back',
