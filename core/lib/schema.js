@@ -1,6 +1,9 @@
 /**
  * Created by dong on 2017/6/24.
  */
+
+exports = module.exports = Schema;
+
 "use strict";
 const _ = require('lodash');
 const EventEmitter = require('events');
@@ -222,5 +225,3 @@ function validMax(val, max) {
 function validMmin(val, max) {
     return val >= max;
 }
-
-module.exports = Schema;

@@ -10,18 +10,27 @@
     <script src="/static/js/common.js"></script>
     <link rel="stylesheet" href="/assets/css/login-add.css">
     <style>
-        .slide-fade-enter-active {
+        .slide-fade-enter-active,
+        .top-slide-fade-enter-active {
             transition: all .3s ease-out;
         }
 
-        .slide-fade-leave-active {
+        .slide-fade-leave-active,
+        .top-slide-fade-leave-active {
             transition: all .2s ease-out;
         }
 
         .slide-fade-enter, .slide-fade-leave-to
             /* .slide-fade-leave-active for <2.1.8 */
         {
-            transform: translateY(-10px);
+            transform: translateX(10px);
+            opacity: 0;
+        }
+
+        .top-slide-fade-enter, .top-slide-fade-leave-to
+            /* .slide-fade-leave-active for <2.1.8 */
+        {
+            transform: translateY(-50px);
             opacity: 0;
         }
 
@@ -71,7 +80,7 @@
     </div>
 </div>
 <div class="mask" id="mask" v-bind:class="{show:isShow}">
-    <transition name="slide-fade" v-on:after-leave="afterLeave"  v-on:leave="leave">
+    <transition name="top-slide-fade" v-on:after-leave="afterLeave"  v-on:leave="leave">
         <reg-view v-if="reg"></reg-view>
     </transition>
 </div>
