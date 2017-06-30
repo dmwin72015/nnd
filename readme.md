@@ -40,3 +40,35 @@ AMD 推荐在声明之前就把所有依赖添加进来，
 CMD 则是推荐在需要时在引过来。但是这里是预先下载，延迟执行。也就是说文件是提前下载进来了，只有在require的时候执行。
 AMD -> 前置依赖
 CMD -> 就近依赖
+
+>####sublime 主题配置
+```javascript
+{
+	"color_scheme": "Packages/Boxy Theme/schemes/Boxy Monokai.tmTheme",
+	"font_face": "Monaco",
+	"font_size": 16,
+	"ignored_packages":
+	[
+		"Vintage"
+	],
+	"show_definitions": false,
+	"theme": "Boxy Monokai.sublime-theme",
+	"theme_accent_tangerine": true,
+	"theme_autocomplete_item_selected_colored": true,
+	"theme_bar_margin_top_sm": true,
+	"theme_dropdown_atomized": true,
+	"theme_find_panel_close_hidden": true,
+	"theme_icon_button_highlighted": true,
+	"theme_panel_switcher_atomized": true,
+	"theme_quick_panel_item_selected_colored": true,
+	"theme_quick_panel_size_md": true,
+	"theme_scrollbar_colored": true,
+	"theme_scrollbar_line": true,
+	"theme_sidebar_close_always_visible": true,
+	"theme_sidebar_folder_atomized": true,
+	"theme_statusbar_size_md": true,
+	"theme_tab_close_always_visible": true,
+	"theme_tab_selected_overlined": true,
+	"theme_tab_size_md": true
+}
+```
