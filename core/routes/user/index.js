@@ -8,6 +8,10 @@ const STATUS = {
         code: '-103',
         msg: '请刷新页面重试'
     },
+    id_exits: {
+        code: '-102',
+        msg: '用户名已经存在'
+    },
     name_404: {
         code: '-101',
         msg: '账号不存在'
@@ -47,13 +51,13 @@ let actions = {
             uid: data.name,
             uname: data.name,
             upwd: data.pwd,
-            created: Date.now()
+            created: new Date()
         };
-        userMod.insertOne(_data, function(err, data) {
+        userMod.insertOne(_data, function(err, result) {
             if (err) {
                 res.json(err);
             } else {
-                res.json(data);
+                res.json(result);
             }
         });
     },
@@ -63,7 +67,6 @@ let actions = {
 
     },
     login: function(req, res, next) {
-
         console.log(req.body);
         STATUS.success.data = req.body
         res.json(STATUS.success);

@@ -97,7 +97,9 @@ Schema.prototype.valid = function (data) {
 
         let val = data[curKey];
         let _cond = this._schema[curKey] || {};
-        let valType = typeToStr(val);
+        let valType = typeToStr(val) || 'String';
+
+        console.log(_cond);
 
         if (val === void 0) {
             if (_cond.default) {
@@ -118,11 +120,12 @@ Schema.prototype.valid = function (data) {
 
         } else {
             if ((_cond.type || 'String') !== valType) {
+                console.log(curKey);
                 validators.push({
                     code: ERR_TYPE_FIELD,
-                    field: key,
+                    field: curKey,
                     value: data[key],
-                    msg: 'type error,[' + key + '] must be ' + _cond.type
+                    msg: 'type error,[' + curKey + '] must be ' + _cond.type
                 });
                 return;
             } else {
@@ -215,7 +218,7 @@ Schema.prototype.filter = function (key, option) {
 
 
 function typeToStr(obj) {
-    return Object.prototype.toString.call(obj).match(/\s(\w+)\]$/)[1];
+    return Object.prototype.toString.call(obj || '').match(/\s(\w+)\]$/)[1] ;
 }
 
 function validMax(val, max) {

@@ -11,8 +11,10 @@ let DBConf = {
     loggerLevel: 'info',
     logger: function (message, ev) {
         console.log(message);
-    }
+    },
+    native_parser:true
 };
+
 let db = mongo.db(MongoConf.url, DBConf);
 
 // var col = db.bind('spider_test');

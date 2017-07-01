@@ -97,7 +97,13 @@
                             captcha: that.ucaptcha
                         }
                     }).done(function(data, text, xhr) {
-                        console.log(data);
+                        if (data && data.code == '1') {
+                            alert('注册成功');
+                            that.hide();
+                        }else{
+                            that.errMsg = data.msg;
+                            that.pwdErr1 = true;
+                        }
                     });
                 }
                 // var _data = this.$data;
@@ -233,7 +239,9 @@
                             upwd: _this.upwd
                         }
                     }).done(function(data, text, xhr) {
-                        console.log(data);
+                        if (data && data.code == '1') {
+                            alert('登陆成功');
+                        }
                     })
                 }
             },
@@ -297,3 +305,27 @@
     });
     global.login = login;
 })(window, jQuery);
+
+;
+(function(global, tool) {
+    tool.charMode = function(f) {
+        var e = f.charCodeAt(0);
+        var b = " 　`｀~～!！@·#＃$￥%％^…&＆()（）-－_—=＝+＋[]［］|·:：;；\"“\\、'‘,，<>〈〉?？/／*＊.。{}｛｝";
+        if (e >= 48 && e <= 57) {
+            return 1
+        } else {
+            if (e >= 65 && e <= 90) {
+                return 2
+            } else {
+                if (e >= 97 && e <= 122) {
+                    return 4
+                } else {
+                    if (-1 < b.indexOf(f)) {
+                        return 8
+                    }
+                }
+            }
+        }
+        return 0
+    }
+})(window, (window.tool = window.tool || {}));

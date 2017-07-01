@@ -1,10 +1,10 @@
-const DB = require('../lib/connectDB');
-const userCol = DB.bind('users');
+const db = require('../lib/connectDB');
+let userCol = db.collection('users');
 const schema = require('../lib/schema');
 const co = require('co');
 
-console.dir(schema.ERR_NOT_VALID);
 
+console.log(db);
 /**
  *  用户字段
  *  uid      登陆账号 (unique max:50)
@@ -63,7 +63,7 @@ let ERRMSG_EXITS_ID = {
     code: schema.ERR_LOST_FIELD,
     msg: '账号已经被注册'
 };
-let ERRMSG_UNVALID = function (name) {
+let ERRMSG_UNVALID = function(name) {
     return {
         code: schema.ERR_NOT_VALID,
         msg: name + '格式错误'
@@ -72,24 +72,32 @@ let ERRMSG_UNVALID = function (name) {
 
 let userSchema = new schema(userField);
 
+function findOne(uid) {
+    return function(callback) {
+        userCol.findOne({
+            uid: uid
+        }, callback);
+    }
+}
+
+
+function insertOne(data) {
+    return function(callback) {
+        userCol.insertOne(data, callback);
+    }
+}
+
 module.exports = {
 
-    insertOne: function (data, callback) {
+    insertOne: function(data, callback) {
         let keys = Object.keys(userField);
-        
-        console.log(keys);
-
         let _newData = {};
         for (var i = 0; i < keys.length; i++) {
-            if(data[keys[i]]){
+            if (data[keys[i]]) {
                 _newData[keys[i]] = data[keys[i]]
             }
         }
-
         data = _newData;
-
-        console.log(data);
-
         if (!data.uid && !data.uname && !data.upwd) {
             callback(ERRMSG_LOST_Login);
             return;
@@ -101,38 +109,48 @@ module.exports = {
             callback(ERRMSG_UNVALID('账号名称'));
             return;
         }
-        let reg_pwd = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,18})");
-        if (!reg_pwd.test(data.uwpd)) {
-            console.log(ERRMSG_UNVALID('密码'));
+        // let reg_pwd = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,18}");
+        let reg_pwd_new = /(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{6,18}/g;
+        let sPwd = data.upwd;
+
+        if (!reg_pwd_new.test(data.upwd)) {
+            console.log('面膜格式瓯');
             callback(ERRMSG_UNVALID('密码'));
             return;
         }
 
         let validRes = userSchema.valid(data);
 
-        console.log(validRes);
-
         if (validRes) {
-            co(function *() {
-                let _res = yield userCol.findOne({uid: data.uid});
-                if (_res && _res.length > 0) {
+            co(function*() {
+                let _res = yield findOne(data.uid);
+                if (_res) {
                     callback(ERRMSG_EXITS_ID);
                     return;
                 }
-                return yield userCol.insertOne(validRes);
-            }).then((data)=> {
-                callback(null, data);
-            }).catch((err)=> {
+                return yield insertOne(validRes);
+            }).then((data) => {
+                // console.log(data);
+                callback(null, {
+                    code:1,
+                    msg:'success'
+                });
+            }).catch((err) => {
                 callback(err);
             })
         } else {
             callback(userSchema.validators);
         }
     },
-    register: function (data, callback) {
-        this.insertOne(data, callback);
+    register: function(data, callback) {
+        if (callback && typeof callback == 'function') {
+            this.insertOne(data, callback);
+        } else {
+            return this.insertOne(data);
+        }
+
     },
-    insertMany: function (data, callback) {
+    insertMany: function(data, callback) {
         for (var i = 0; i < data.length; i++) {
             let _res = userSchema.valid(data);
             if (!_res) {
@@ -143,8 +161,9 @@ module.exports = {
         userCol.insertMany(data, callback);
     },
 
-    findByName: function (name, callback) {
-        "use strict";
-        userCol.findOne({uname: name}, callback);
+    findByUid: function(uid, callback) {
+        userCol.findOne({
+            uid: uid
+        }, callback);
     }
 };
