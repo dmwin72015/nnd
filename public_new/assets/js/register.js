@@ -46,7 +46,7 @@
                         <err-tip v-bind:status="pwdErr2" v-bind:class="errClass" v-bind:msg="errMsg"> </err-tip>\
                     </p>\
                     <p><input type="text" name="reg_picode" v-bind:class="{err:capErr}" v-bind:placeholder="tip_pcode" v-model="ucaptcha"/>\
-                        <span class="pic-code"><img :src="tcha_url" :alt="tip_pcode"></span>\
+                        <span class="pic-code" v-on:click="flashCode"><img :src="tcha_url" :alt="tip_pcode"></span>\
                         <err-tip v-bind:status="capErr" v-bind:class="errClass" v-bind:msg="errMsg"> </err-tip>\
                     </p>\
                     <p><input type="button" id="reg_sub" value="确定" v-on:click="reg"></p>\
@@ -100,7 +100,7 @@
                         if (data && data.code == '1') {
                             alert('注册成功');
                             that.hide();
-                        }else{
+                        } else {
                             that.errMsg = data.msg;
                             that.pwdErr1 = true;
                         }
@@ -181,6 +181,9 @@
                     return true;
                 }
                 return false;
+            },
+            flashCode: function() {
+                this.tcha_url = '/captcha/new.gif' + '?_=' + Date.now();
             }
         },
         mounted: function(argument) {

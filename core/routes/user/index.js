@@ -67,9 +67,35 @@ let actions = {
 
     },
     login: function(req, res, next) {
-        console.log(req.body);
-        STATUS.success.data = req.body
-        res.json(STATUS.success);
+        var uName = req.body.uname;
+        var sPwd = req.body.upwd;
+        userMod.findOne({
+            uname: uName
+        }, (err, data) => {
+            if (err) {
+                next();
+                return;
+            }
+            console.log(data);
+            if (!data) {
+                res.json({
+                    code: '-3',
+                    msg: '此用户不存在'
+                });
+                return;
+            }
+            if (data.upwd === sPwd) {
+                res.json({
+                    code: '-4',
+                    msg: '账号或密码错误'
+                });
+            } else {
+                res.json({
+                    code: '1',
+                    msg: 'success'
+                });
+            }
+        })
     }
 };
 

@@ -3,8 +3,6 @@ let userCol = db.collection('users');
 const schema = require('../lib/schema');
 const co = require('co');
 
-
-console.log(db);
 /**
  *  用户字段
  *  uid      登陆账号 (unique max:50)
@@ -132,8 +130,8 @@ module.exports = {
             }).then((data) => {
                 // console.log(data);
                 callback(null, {
-                    code:1,
-                    msg:'success'
+                    code: 1,
+                    msg: 'success'
                 });
             }).catch((err) => {
                 callback(err);
@@ -165,5 +163,8 @@ module.exports = {
         userCol.findOne({
             uid: uid
         }, callback);
+    },
+    findOne: function(data, callback) {
+        userCol.findOne(data, callback)
     }
 };
