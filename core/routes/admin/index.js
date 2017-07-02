@@ -1,18 +1,11 @@
+const url = require('url');
 // admin 登录状态验证
 var adminAll = function(req, res, next) {
-    var method = req.method;
-    var query = req.query;
-
-    res.app.locals.login_user = {
-        name: '董敏',
-        email:'dong@163.com'
-    };
-
-    if (query.a) {
-        res.send(dataType(method, '所有admin下路径'));
-    } else {
-        next();
+    if (!req.session && !req.session.loginInfo) {
+        res.redirect('/login');
+        return;
     }
+    next();
 };
 
 
