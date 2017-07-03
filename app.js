@@ -29,7 +29,7 @@ app.use(session({
   secret: 'dongmin-pc',
   resave: false,
   saveUninitialized: true,
-  cookie: {maxAge: 60000}
+  cookie: {maxAge:60 * 60 * 1000}
 }))
 
 

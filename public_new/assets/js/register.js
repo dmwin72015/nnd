@@ -243,7 +243,7 @@
                         }
                     }).done(function(data, text, xhr) {
                         if (data && data.code == '1') {
-                            alert('登陆成功');
+                            window.location.replace('/admin/spider');
                         }
                     })
                 }

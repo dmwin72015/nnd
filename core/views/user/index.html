@@ -1,9 +1,35 @@
 {>"include/layout.html"/}
 {<selfCss}
+<script></script>
 <link rel="stylesheet" href="/static/css/tp-spider.css">
+<style>
+    .userinfo-tool{
+        margin-top: 10px;
+    }
+    .userinfo-tool>.btn{
+        float: right;
+    }
+    .userinfo-table input{
+
+    }
+    .info-item .item-val{
+        line-height: 30px;
+        display: inline-block;
+        border:1px solid;
+    }
+    .info-item span.item-val{
+        border-color:  transparent;
+    }
+    .info-item input.item-val{
+        border-color:#ccc;
+        padding: 0 5px;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        width: 80%;
+    }
+</style>
 {/selfCss}
 {<content}
-<div class="box userinfo-box">
+<div class="box userinfo-box" id="user">
     <header class="box-head">
         <h3 class="title">个人信息</h3>
         <ul class="tool-panel pull-right">
@@ -13,24 +39,7 @@
         </ul>
     </header>
     <div class="box-body">
-        <table class="borded userinfo-table">
-            <tr>
-                <th></th>
-                <th>内容</th>
-            </tr>
-            <tr>
-                <td>ID</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>姓名</td>
-                <td>{$login_user.name}</td>
-            </tr>
-            <tr>
-                <td>注册时间</td>
-                <td></td>
-            </tr>
-        </table>
+       <user-info v:bind="items"></user-info>
     </div>
 </div>
 {/content}
@@ -38,7 +47,8 @@
 {/bodyContent}
 
 {<selfJs}
+<script src="/assets/js/vue.js"></script>
 <script src="/static/js/dashboard.bundle.js"></script>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-<script src="//cdn.me/assets/js/sp-art-1.js"></script>
+<script type="text/javascript" src="/assets/js/user.js"></script>
 {/selfJs}

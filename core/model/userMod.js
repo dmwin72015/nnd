@@ -112,7 +112,6 @@ module.exports = {
         let sPwd = data.upwd;
 
         if (!reg_pwd_new.test(data.upwd)) {
-            console.log('面膜格式瓯');
             callback(ERRMSG_UNVALID('密码'));
             return;
         }

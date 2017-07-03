@@ -1,11 +1,12 @@
 const url = require('url');
 // admin 登录状态验证
 var adminAll = function(req, res, next) {
-    if (!req.session && !req.session.loginInfo) {
-        res.redirect('/login');
+    if (req.session && req.session.loginInfo) {
+        req.session.loginInfo = req.session.loginInfo;
+        next();
         return;
     }
-    next();
+    res.redirect('/login');
 };
 
 

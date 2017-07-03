@@ -37,16 +37,16 @@ const STATUS = {
 let actions = {
     regi: function(req, res, next) {
         var data = req.body;
-        // var sess_capt = req.session.captcha;
-        // if (sess_capt) {
-        //     if (sess_capt != data.captcha) {
-        //         res.json(capt_err);
-        //         return;
-        //     }
-        // } else {
-        //     res.json(STATUS.session_404);
-        //     return;
-        // }
+        var sess_capt = req.session.captcha;
+        if (sess_capt) {
+            if (sess_capt != data.captcha) {
+                res.json(capt_err);
+                return;
+            }
+        } else {
+            res.json(STATUS.session_404);
+            return;
+        }
         var _data = {
             uid: data.name,
             uname: data.name,
@@ -69,6 +69,13 @@ let actions = {
     login: function(req, res, next) {
         var uName = req.body.uname;
         var sPwd = req.body.upwd;
+        if(req.session.loginInfo){
+            res.json({
+                code:-6,
+                msg:'已经登录，请勿重复登录'
+            });
+            return;
+        }
         userMod.findOne({
             uname: uName
         }, (err, data) => {
@@ -76,7 +83,6 @@ let actions = {
                 next();
                 return;
             }
-            console.log(data);
             if (!data) {
                 res.json({
                     code: '-3',
@@ -84,12 +90,16 @@ let actions = {
                 });
                 return;
             }
-            if (data.upwd === sPwd) {
+            if (data.upwd !== sPwd) {
                 res.json({
                     code: '-4',
                     msg: '账号或密码错误'
                 });
             } else {
+                req.session.loginInfo = {
+                    uid : uName,
+                    loginDate : Date.now()
+                }
                 res.json({
                     code: '1',
                     msg: 'success'
@@ -99,9 +109,7 @@ let actions = {
     }
 };
 
-
 module.exports = {
-
     '/:id': {
         'post': function(req, res, next) {
             console.log(req.originalUrl);
