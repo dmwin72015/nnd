@@ -69,15 +69,15 @@ let actions = {
     login: function(req, res, next) {
         var uName = req.body.uname;
         var sPwd = req.body.upwd;
-        if(req.session.loginInfo){
+        if (req.session.loginInfo) {
             res.json({
-                code:-6,
-                msg:'已经登录，请勿重复登录'
+                code: -6,
+                msg: '已经登录，请勿重复登录'
             });
             return;
         }
         userMod.findOne({
-            uname: uName
+            uid: uName
         }, (err, data) => {
             if (err) {
                 next();
@@ -96,10 +96,11 @@ let actions = {
                     msg: '账号或密码错误'
                 });
             } else {
-                req.session.loginInfo = {
-                    uid : uName,
-                    loginDate : Date.now()
-                }
+                res.app.locals.loginInfo = req.session.loginInfo = {
+                    id: data.uid,
+                    name: data.uname,
+                    loginDate: Date.now()
+                };
                 res.json({
                     code: '1',
                     msg: 'success'
