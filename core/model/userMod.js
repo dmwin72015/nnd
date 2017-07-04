@@ -15,7 +15,6 @@ const co = require('co');
  *  created 创建时间(date)
  */
 
-
 let userField = {
     uid: {
         primary: true
