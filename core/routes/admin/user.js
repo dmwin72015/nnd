@@ -63,7 +63,18 @@ module.exports = {
                     group:data.gname || '无',
                     reg_date:data.created.toLocaleString()
                 };
-                res.render('user/index.html',tmpl_data);
+                var re_data = {};
+                re_data.tmplData =[
+                    { title: 'ID', val: data.uid },
+                    { title: '姓名', val: data.uname || data.uid },
+                    { title: '年龄', val: data.age || '' },
+                    { title: '性别', val: data.sex || ''},
+                    { title: '昵称', val: data.alias || data.uid },
+                    { title: '组', val: data.gname || '无' },
+                    { title: '注册时间', val: data.created.toLocaleString() }
+                ];
+                re_data.name = '测试';
+                res.render('user/index.html',re_data);
             });
         }else{
            res.redirect('/user/login'); 
