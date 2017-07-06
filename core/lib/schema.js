@@ -11,7 +11,7 @@ const EventEmitter = require('events');
 const ERR_LOST_FIELD = exports.ERR_LOST_FIELD = -1;                 //缺少必须的字段
 const ERR_NOT_IN_RANGE = exports.ERR_NOT_IN_RANGE =-2;              //字段验证不通过
 const ERR_TYPE_FIELD = exports.ERR_TYPE_FIELD = -3;                 //类型错误
-const ERR_NOT_VALID = exports.ERR_NOT_VALID = -3;                   //验证不通过
+const ERR_NOT_VALID = exports.ERR_NOT_VALID = -4;                   //验证不通过，格式不正确
 
 
 /*
@@ -25,7 +25,18 @@ const ERR_NOT_VALID = exports.ERR_NOT_VALID = -3;                   //验证不�
  *   lowercase   转小写(only type = string)
  *   uppercase   转大写(only type = string)
  * */
+/*
+* String
+ Number
+ Date
+ Buffer
+ Boolean
+ Mixed
+ Objectid
+ Array
 
+ *
+* */
 function Schema(options) {
     "use strict";
     this.primaryKey = [];

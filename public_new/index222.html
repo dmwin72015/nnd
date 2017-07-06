@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +8,80 @@
     <title>这是首页</title>
     <link rel="stylesheet" href="/static/css/tp-vote.css">
 </head>
+
 <body>
     <img src="/static/img/quantou.png" alt="">
     <div id="bg">
         <canvas class="particles-js-canvas-el"></canvas>
     </div>
+    <p>
+        <input type="search" id="sea_bran">
+    </p>
+    <div>
+        <ul id="list"></ul>
+    </div>
 </body>
-<script src="/assets/js/sp-art-2.js"></script>
+<script src="/assets/js/fuzzy.js"></script>
+<script>
+var list = ['baconing', 'narwhal', 'a mighty bear canoe', '中文', '宝马', '奔驰', 'benchi', 'baoma'];
+
+var _data = {
+    '12': {
+        ename: 'benchi',
+        name: '奔驰'
+    },
+    '13': {
+        ename: 'baoma',
+        name: '宝马'
+    }
+};
+
+var _data2 = [{
+    ename: 'benchi',
+    name: '奔驰'
+}, {
+    ename: 'baoma',
+    name: '宝马'
+}];
+
+for (var i = 0; i < 300; i++) {
+    _data2.push({
+        ename: 'baoma' + i,
+        name: '宝马' + i
+    });
+}
+var options = {
+    pre: '<',
+    post: '>',
+    extract: function(el) {
+        return el.ename + el.name;
+    }
+};
+var regCh = /^[\u4E00-\u9FA5]$/g;
+
+var results = fuzzy.filter('b', list)
+var oInput = document.querySelector('#sea_bran');
+var oList = document.querySelector('#list');
+oInput.onkeyup = function() {
+    var val = this.value;
+    if (!val) {
+        oList.innerHTML = '';
+        return;
+    }
+    var results = fuzzy.filter(val, _data2, options);
+    // console.log(results);
+    render(results);
+}
+
+
+function render(data) {
+    var str = '';
+    for (var i = 0; i < data.length; i++) {
+        var original = data[i].original;
+        str += '<li>' + original.name + '</li>'
+    }
+    oList.innerHTML = str;
+}
+</script>
+
 </html>

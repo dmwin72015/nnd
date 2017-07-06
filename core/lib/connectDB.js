@@ -1,5 +1,6 @@
 /**
- * Created by mjj on 2017/6/22.
+ * 	Created by mjj on 2017/6/22.
+ *	connect to mongodb(连接mongodb数据库)
  */
 // const MongoClient = require('mongodb').MongoClient;
 const MongoConf = require('../conf/mongo-conf')('dev');
@@ -9,10 +10,10 @@ const mongo = require('mongoskin');
 let DBConf = {
     poolSize: 6,
     loggerLevel: 'info',
-    logger: function (message, ev) {
+    logger: function(message, ev) {
         console.log(message);
     },
-    native_parser:true
+    native_parser: true
 };
 
 let db = mongo.db(MongoConf.url, DBConf);
@@ -30,4 +31,3 @@ let db = mongo.db(MongoConf.url, DBConf);
 // });
 
 module.exports = db;
-

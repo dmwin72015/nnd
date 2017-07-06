@@ -1,5 +1,5 @@
 "use strict";
-//已经废弃，早起思路的参考，
+//已经废弃，早期思路的参考，
 //为了使用express不支持的模板，自己又分装了一层
 var express = require('express');
 var path = require('path');

@@ -8,17 +8,17 @@ const headers = {
 const port = '80';
 
 // 状态吗
-const REQUEST_SUCCESS = exports.REQUEST_SUCCESS = 1; //成功
-const REQUEST_NEED_CAPTCHA = exports.REQUEST_NEED_CAPTCHA = 11; //成功,但是需要验证码
+const REQUEST_SUCCESS = exports.REQUEST_SUCCESS = 1;                        //成功
+const REQUEST_NEED_CAPTCHA = exports.REQUEST_NEED_CAPTCHA = 11;             //成功,但是需要验证码
 
-const REQUEST_ABORT = exports.REQUEST_ABORT = -1; //终止
-const REQUEST_NET_ERROR = exports.REQUEST_NET_ERROR = -2; //网络错误
-const REQUEST_TIMEOUT = exports.REQUEST_TIMEOUT = -3; //超时
-const REQUEST_ERROR_ID = exports.REQUEST_ERROR_ID = -4; //错误的ID
-const REQUEST_HOST_ERROR = exports.REQUEST_HOST_ERROR = -5; //错误的HOST
-const REQUEST_REDIRECT_ERROR = exports.REQUEST_REDIRECT_ERROR = -6; //重定向失败
-const REQUEST_PATH_ERROR = exports.REQUEST_PATH_ERROR = -6; //path错误
-const REQUEST_PROGRM_ERROR = exports.REQUEST_PROGRM_ERROR = -7; //程序报错
+const REQUEST_ABORT = exports.REQUEST_ABORT = -1;                           //终止
+const REQUEST_NET_ERROR = exports.REQUEST_NET_ERROR = -2;                   //网络错误
+const REQUEST_TIMEOUT = exports.REQUEST_TIMEOUT = -3;                       //超时
+const REQUEST_ERROR_ID = exports.REQUEST_ERROR_ID = -4;                     //错误的ID
+const REQUEST_HOST_ERROR = exports.REQUEST_HOST_ERROR = -5;                 //错误的HOST
+const REQUEST_REDIRECT_ERROR = exports.REQUEST_REDIRECT_ERROR = -6;         //重定向失败
+const REQUEST_PATH_ERROR = exports.REQUEST_PATH_ERROR = -6;                 //path错误
+const REQUEST_PROGRM_ERROR = exports.REQUEST_PROGRM_ERROR = -7;             //程序报错
 
 exports.DEFAULT_CONF = {
     headers: headers,

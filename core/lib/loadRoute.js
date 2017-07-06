@@ -1,3 +1,6 @@
+/*
+    路由加载器，加载所有路由
+*/
 "use strict";
 let express = require('express');
 let glob = require('glob');

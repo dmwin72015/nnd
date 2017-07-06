@@ -1,5 +1,6 @@
 /**
  * Created by dong on 2017/6/17.
+ * CDN服务地址
  */
 const os = require('os');
 

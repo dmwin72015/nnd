@@ -1,3 +1,6 @@
+/*
+    数据库配置文件
+*/
 var conf = {
     dev: {
         host: 'localhost',

@@ -1,3 +1,6 @@
+/*
+    日志配置文件
+*/
 var fs = require('fs');
 var morgan = require('morgan');
 var fileStreamRotator = require('file-stream-rotator');
