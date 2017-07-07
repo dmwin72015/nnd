@@ -11,7 +11,7 @@
     <div class="user-nav">
         <a href="javascript:;" class="avator" data-id="">
             <img src="https://colorlib.com/polygon/gentelella/images/img.jpg" alt="">
-            <span>{login_user.name}</span>
+            <span data-st="{loginInfo.loginDate}" data-id="{loginInfo.id}">{loginInfo.name}</span>
             <i class="fa fa-angle-down"></i>
         </a>
         <div class="user-menu-list">
@@ -28,15 +28,15 @@
     <div class="menu-group top-nav">
         <a href="javascript:;" class="menu email" title="邮件">
             <i class="fa fa-envelope-o"></i>
-            <span class="badge bg-green">5</span>
+            {#email}<span class="badge bg-green">{email}</span>{/email}
         </a>
         <a href="javascript:;" class="menu msg" title="信息">
             <i class="fa fa-comment-o" style="font-size:14px;"></i>
-            <span class="badge bg-green">99+</span>
+            {#msgs}<span class="badge bg-green">{msgs}</span>{/msgs}
         </a>
         <a href="javascript:;" class="menu friend-online" title="好友">
             <i class="fa fa-user-o"></i>
-            <span class="badge bg-green">12</span>
+            {#friends}<span class="badge bg-green">{friends}</span>{/friends}
             <div class="friend-list"></div>
         </a>
     </div>
