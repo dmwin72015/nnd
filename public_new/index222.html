@@ -7,12 +7,112 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>这是首页</title>
     <link rel="stylesheet" href="/static/css/tp-vote.css">
+
+    <script>
+        (function(funcName, baseObj) {
+            "use strict";
+            funcName = funcName || "ready";
+            baseObj = baseObj || window;
+            var readyList = [];
+            var readyFired = false;
+            var readyEventHandlersInstalled = false;
+            function ready() {
+                if (!readyFired) {
+                    readyFired = true;
+                    for (var i = 0; i < readyList.length; i++) {
+                        readyList[i].fn.call(window, readyList[i].ctx);
+                    }
+                    // allow any closures held by these functions to free
+                    readyList = [];
+                }
+            }
+
+            function readyStateChange() {
+                if ( document.readyState === "complete" ) {
+                    ready();
+                }
+            }
+
+            baseObj[funcName] = function(callback, context) {
+                if (typeof callback !== "function") {
+                    throw new TypeError("callback for docReady(fn) must be a function");
+                }
+                // if ready has already fired, then just schedule the callback
+                // to fire asynchronously, but right away
+                if (readyFired) {
+                    setTimeout(function() {callback(context);}, 1);
+                    return;
+                } else {
+                    // add the function and context to the list
+                    readyList.push({fn: callback, ctx: context});
+                }
+                // IE下判断document.readyState === "complete" ,其他浏览器是 "interactive"
+                if (document.readyState === "complete" || (!document.attachEvent && document.readyState === "interactive")) {
+                    setTimeout(ready, 1);
+                } else if (!readyEventHandlersInstalled) {
+                    // otherwise if we don't have event handlers installed, install them
+                    if (document.addEventListener) {
+                        // first choice is DOMContentLoaded event
+                        document.addEventListener("DOMContentLoaded", ready, false);
+                        // backup is window load event
+                        window.addEventListener("load", ready, false);
+                    } else {
+                        // must be IE
+                        document.attachEvent("onreadystatechange", readyStateChange);
+                        window.attachEvent("onload", ready);
+                    }
+                    readyEventHandlersInstalled = true;
+                }
+            }
+        })("ready", window);
+    </script>
+    <style>
+        #bg:hover{
+            background-color: #c9302c;
+        }
+        .test{
+            width: 300px;
+            height:300px;
+            background: #f20d0d;
+        }
+        .test:hover{
+            background: #D9DEE4;
+            font-size: 40px;
+        }
+        .test::after{
+            content: "hello world";
+            font-size: 20px;
+            font-style: oblique;
+        }
+        .test:hover::after{
+            color: #0f88eb;
+        }
+    </style>
+    <script>
+        ready(function () {
+            var oDiv = document.querySelector('#test');
+
+            var oStyles = window.getComputedStyle(oDiv,':hover');
+
+
+            console.log(oStyles['fontSize']);
+
+        },{name:123});
+
+    </script>
+
 </head>
 
 <body>
+    <div class="test" id="test">
+        div中
+
+    </div>
+
     <img src="/static/img/quantou.png" alt="">
     <div id="bg">
         <canvas class="particles-js-canvas-el"></canvas>
+        lulasdada
     </div>
     <p>
         <input type="search" id="sea_bran">
