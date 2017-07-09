@@ -49,8 +49,8 @@ module.exports = {
         var curUser = req.session.loginInfo;
         console.log(req.session);
         if (curUser) {
-            userMod.findOne({ uid: curUser.uid }, function(err, data) {
-                if(err){
+            userMod.findOne({ uid: curUser.id }, function(err, data) {
+                if(err || !data){
                     next();
                     return;
                 }
