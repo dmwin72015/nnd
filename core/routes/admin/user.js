@@ -64,11 +64,17 @@ module.exports = {
                     reg_date:data.created.toLocaleString()
                 };
                 var re_data = {};
+                var _sex = '';
+                if(data.sex == 1){
+                    _sex = "男"
+                }else if(data.sex == 0){
+                    _sex = "女"
+                }
                 re_data.tmplData =[
                     { title: 'ID', val: data.uid },
                     { title: '姓名', val: data.uname || data.uid },
                     { title: '年龄', val: data.age || '' },
-                    { title: '性别', val: data.sex || ''},
+                    { title: '性别', val: _sex},
                     { title: '昵称', val: data.alias || data.uid },
                     { title: '组', val: data.gname || '无' },
                     { title: '注册时间', val: data.created.toLocaleString() }

@@ -183,5 +183,9 @@ function render(data) {
     oList.innerHTML = str;
 }
 </script>
-
+<script>
+    setInterval(function(){
+        document.querySelector('#list').innerText = 'a'+Date.now()/1000;
+    },1200)
+</script>
 </html>
