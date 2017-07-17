@@ -10,14 +10,14 @@ class Spider {
 
     constructor(opt) {
         this.limit = 10;
-        this.opt = opt || {}
+        this.opt = opt || {};
         this.req = http.request(this.opt);
     }
 
     //发送请求
     fetch(url, callback) {
         var that = this;
-        var _data = {}
+        var _data = {};
         http.get(url, function(res) {
             that.event(res, function(trunk) {
                 _data.html = trunk;

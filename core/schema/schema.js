@@ -1,15 +1,21 @@
 const EventEmitter = require('events');
-
+const err = require('./error');
+const SchemaType = require('./schemaType');
 
 function Schema(obj, options) {
     if (!(this instanceof Schema)) {
         return new Schema(obj, options);
     }
-    this.obj = obj;
-    this.paths = {};
-    this._requiredPath = {};
+    this.paths = obj || {};
+    this._requiredpaths = [];
     this.options = this.defaultOption(options);
     this.collections = null;
+    this.validators = [];
+
+    this.on('', function () {
+
+
+    });
 }
 
 // 把ID转字符串
@@ -23,7 +29,9 @@ function idGetter() {
 
 // 继承自EventEmitter(事件对象)
 Schema.prototype = Object.create(EventEmitter.prototype);
+
 Schema.prototype.constructor = Schema;
+
 Schema.prototype.instanceOfSchema = true;
 
 Schema.prototype.defaultOptions = function (options) {
@@ -83,5 +91,31 @@ Schema.prototype.requiredPaths = function (isCache) {
     }
     this._requiredpaths = ret;
     return this._requiredpaths;
+};
+
+Schema.prototype.validate = function (data, callback) {
+    data = data || data;
+    var _this = this;
+    var reqPaths = this._requiredpaths;
+    var keys = Object.keys(this.paths);
+
+    //验证必须字段
+    for (var i = 0; i < reqPaths.length; i++) {
+        if (!data[reqPaths[i]]) {
+            _this.validators.push(err.requireErr(reqPaths[i]));
+            callback(_this.validators);
+            return;
+        }
+    }
+
+    //验证数据合法性
+    var saType = new SchemaType(this, data);
+
+    if (saType.validation.length) {
+        callback(saType.validation);
+        return
+    }
+
+    callback(null, saType.result);
 };
 
