@@ -9,16 +9,16 @@
         $that.text('获取中...');
         status = 1;
         $.ajax({
-            url: 'art',
+            url: '/admin/spart/art',
             type: 'post',
-            data: {},
+            data: {url:$('#art_url').val()},
             success: function (data) {
                 if (data && data.status == 1) {
                     var html = renderArtlist(data.data);
                     artCont.innerHTML = html;
                 }
             }
-        }).done(function () {
+        }).always(function () {
             status = 0;
             $that.text('获取');
         });
