@@ -17,9 +17,10 @@
                     var html = renderArtlist(data.data);
                     artCont.innerHTML = html;
                 }
-                status = 0;
-                $that.text('获取');
             }
+        }).done(function () {
+            status = 0;
+            $that.text('获取');
         });
     });
 
@@ -64,7 +65,7 @@
         for (var i = 0; i < data.length; i++) {
             var _part = '<li data-id=' + data[i].id + '>';
             _part += '<i class="fa fa-file-image-o"></i><span>' + data[i].path + '</span>';
-            _part += '<img src="'+data[i].path+'"/>  ';
+            _part += '<img src="' + data[i].path + '"/>  ';
             for (var j = 1; j < 5; j++) {
                 _part += '<a target="_blank" href="' + (data[i].path) + '">' + txt['p' + j] + '</a>';
             }

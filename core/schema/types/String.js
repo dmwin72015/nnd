@@ -10,9 +10,8 @@ function SchemaString(key, options) {
 
 
 /*!
- * 继承SchemaType
+ * 
  */
-SchemaString.prototype = Object.create(SchemaType.prototype);
 
 SchemaString.prototype.constructor = SchemaString;
 
@@ -53,13 +52,16 @@ SchemaString.prototype.maxlength = function (value, message) {
 };
 
 // 正则
-SchemaString.prototype.match = function match(regExp, message) {
+SchemaString.prototype.match = function (regExp, message) {
 
 
 };
 
-// 正则
-SchemaString.prototype.valid = function match(regExp, message) {
+// 验证
+SchemaString.prototype.valid = function (schema, data) {
 
 
 };
+
+
+module.exports = exports = new SchemaString();

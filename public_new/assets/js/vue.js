@@ -3420,7 +3420,7 @@ function createComponent (
 
   data = data || {};
 
-  // transform component v-model data into props & events
+  // transform component v-model_old data into props & events
   if (isDef(data.model)) {
     transformModel(Ctor.options, data);
   }
@@ -3504,7 +3504,7 @@ function mergeHook$1 (one, two) {
   }
 }
 
-// transform component v-model info (value and callback) into
+// transform component v-model_old info (value and callback) into
 // prop and event handler respectively.
 function transformModel (options, data) {
   var prop = (options.model && options.model.prop) || 'value';
@@ -5768,7 +5768,7 @@ function getAndRemoveAttr (el, name) {
 /*  */
 
 /**
- * Cross-platform code generation for component v-model
+ * Cross-platform code generation for component v-model_old
  */
 function genComponentModel (
   el,
@@ -5800,7 +5800,7 @@ function genComponentModel (
 }
 
 /**
- * Cross-platform codegen helper for generating v-model value assignment code.
+ * Cross-platform codegen helper for generating v-model_old value assignment code.
  */
 function genAssignmentCode (
   value,
@@ -5818,7 +5818,7 @@ function genAssignmentCode (
 }
 
 /**
- * parse directive model to do the array update transform. a[idx] = val => $$a.splice($$idx, 1, val)
+ * parse directive model_old to do the array update transform. a[idx] = val => $$a.splice($$idx, 1, val)
  *
  * for loop possible cases:
  *
@@ -5930,15 +5930,15 @@ function model (
     var dynamicType = el.attrsMap['v-bind:type'] || el.attrsMap[':type'];
     if (tag === 'input' && dynamicType) {
       warn$1(
-        "<input :type=\"" + dynamicType + "\" v-model=\"" + value + "\">:\n" +
-        "v-model does not support dynamic input types. Use v-if branches instead."
+        "<input :type=\"" + dynamicType + "\" v-model_old=\"" + value + "\">:\n" +
+        "v-model_old does not support dynamic input types. Use v-if branches instead."
       );
     }
     // inputs with type="file" are read only and setting the input's
     // value will throw an error.
     if (tag === 'input' && type === 'file') {
       warn$1(
-        "<" + (el.tag) + " v-model=\"" + value + "\" type=\"file\">:\n" +
+        "<" + (el.tag) + " v-model_old=\"" + value + "\" type=\"file\">:\n" +
         "File inputs are read only. Use a v-on:change listener instead."
       );
     }
@@ -5954,12 +5954,12 @@ function model (
     genDefaultModel(el, value, modifiers);
   } else if (!config.isReservedTag(tag)) {
     genComponentModel(el, value, modifiers);
-    // component v-model doesn't need extra runtime
+    // component v-model_old doesn't need extra runtime
     return false
   } else {
     warn$1(
-      "<" + (el.tag) + " v-model=\"" + value + "\">: " +
-      "v-model is not supported on this element type. " +
+      "<" + (el.tag) + " v-model_old=\"" + value + "\">: " +
+      "v-model_old is not supported on this element type. " +
       'If you are working with contenteditable, it\'s recommended to ' +
       'wrap a library dedicated for that purpose inside a custom component.'
     );
@@ -6068,9 +6068,9 @@ function genDefaultModel (
 
 /*  */
 
-// normalize v-model event tokens that can only be determined at runtime.
+// normalize v-model_old event tokens that can only be determined at runtime.
 // it's important to place the event as the first in the array because
-// the whole point is ensuring the v-model callback gets called before
+// the whole point is ensuring the v-model_old callback gets called before
 // user-attached handlers.
 function normalizeEvents (on) {
   var event;
@@ -6211,7 +6211,7 @@ function isDirty (elm, checkVal) {
 
 function isInputChanged (elm, newVal) {
   var value = elm.value;
-  var modifiers = elm._vModifiers; // injected by v-model runtime
+  var modifiers = elm._vModifiers; // injected by v-model_old runtime
   if ((isDef(modifiers) && modifiers.number) || elm.type === 'number') {
     return toNumber(value) !== toNumber(newVal)
   }
@@ -7012,7 +7012,7 @@ function setSelected (el, binding, vm) {
   var isMultiple = el.multiple;
   if (isMultiple && !Array.isArray(value)) {
     "development" !== 'production' && warn(
-      "<select multiple v-model=\"" + (binding.expression) + "\"> " +
+      "<select multiple v-model_old=\"" + (binding.expression) + "\"> " +
       "expects an Array value for its binding, but got " + (Object.prototype.toString.call(value).slice(8, -1)),
       vm
     );
@@ -8490,11 +8490,11 @@ function checkForAliasModel (el, value) {
   while (_el) {
     if (_el.for && _el.alias === value) {
       warn$2(
-        "<" + (el.tag) + " v-model=\"" + value + "\">: " +
-        "You are binding v-model directly to a v-for iteration alias. " +
+        "<" + (el.tag) + " v-model_old=\"" + value + "\">: " +
+        "You are binding v-model_old directly to a v-for iteration alias. " +
         "This will not be able to modify the v-for source array because " +
         "writing to the alias is like modifying a function local variable. " +
-        "Consider using an array of objects and use v-model on an object property instead."
+        "Consider using an array of objects and use v-model_old on an object property instead."
       );
     }
     _el = _el.parent;
@@ -8964,9 +8964,9 @@ function genData (el) {
   if (el.scopedSlots) {
     data += (genScopedSlots(el.scopedSlots)) + ",";
   }
-  // component v-model
+  // component v-model_old
   if (el.model) {
-    data += "model:{value:" + (el.model.value) + ",callback:" + (el.model.callback) + ",expression:" + (el.model.expression) + "},";
+    data += "model_old:{value:" + (el.model.value) + ",callback:" + (el.model.callback) + ",expression:" + (el.model.expression) + "},";
   }
   // inline-template
   if (el.inlineTemplate) {

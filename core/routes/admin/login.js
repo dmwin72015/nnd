@@ -1,12 +1,10 @@
-var userMod = require('../../model/userMod');
+const userMod = require('../../model/userMod');
 
 var default_callback = {
     status: '-1',
     data: [],
     message: '位置错误'
 };
-
-
 
 
 module.exports = {

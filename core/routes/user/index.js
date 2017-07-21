@@ -1,41 +1,8 @@
 const userMod = require('../../model/userMod');
-const STATUS = {
-    success: {
-        code: '1',
-        msg: '登录成功'
-    },
-    session_404: {
-        code: '-103',
-        msg: '请刷新页面重试'
-    },
-    id_exits: {
-        code: '-102',
-        msg: '用户名已经存在'
-    },
-    name_404: {
-        code: '-101',
-        msg: '账号不存在'
-    },
-    name_typeErr: {
-        code: '-102',
-        msg: '账号格式错误(必须为邮箱)'
-    },
-    pwd_err: {
-        code: '-201',
-        msg: '密码错误'
-    },
-    pwd_len_err: {
-        code: '-202',
-        msg: '密码长度有误'
-    },
-    capt_err: {
-        code: '-300',
-        msg: '验证码错误'
-    }
-};
+const msg = userMod.LOGIN_TIP_INFO;
 
 let actions = {
-    regi: function(req, res, next) {
+    regi: function (req, res, next) {
         var data = req.body;
         var sess_capt = req.session.captcha;
         if (sess_capt) {
@@ -53,7 +20,7 @@ let actions = {
             upwd: data.pwd,
             created: new Date()
         };
-        userMod.insertOne(_data, function(err, result) {
+        userMod.insertOne(_data, function (err, result) {
             if (err) {
                 res.json(err);
             } else {
@@ -61,12 +28,10 @@ let actions = {
             }
         });
     },
-
-    del: function() {
-
+    del: function () {
 
     },
-    login: function(req, res, next) {
+    login: function (req, res, next) {
         var uName = req.body.uname;
         var sPwd = req.body.upwd;
         if (req.session.loginInfo) {
@@ -76,43 +41,39 @@ let actions = {
             });
             return;
         }
-        userMod.findOne({
-            uid: uName
-        }, (err, data) => {
+
+        userMod.findOne({uid: uName}, 'uid uname upwd alias sex age', function (err, doc) {
             if (err) {
-                next();
+                res.json(msg.server_err);
                 return;
             }
-            if (!data) {
-                res.json({
-                    code: '-3',
-                    msg: '此用户不存在'
-                });
+            if (!doc) {
+                res.json(msg.name_404);
                 return;
             }
-            if (data.upwd !== sPwd) {
-                res.json({
-                    code: '-4',
-                    msg: '账号或密码错误'
-                });
-            } else {
-                res.app.locals.loginInfo = req.session.loginInfo = {
-                    id: data.uid,
-                    name: data.uname,
-                    loginDate: Date.now()
-                };
-                res.json({
-                    code: '1',
-                    msg: 'success'
-                });
+            if (sPwd !== doc.upwd) {
+                res.json(msg.name_pwd_err);
+                return;
             }
-        })
+            var userInfo = {
+                uid:doc.uid,
+                uname:doc.uname,
+                upwd:doc.upwd,
+                age:doc.age,
+                sex:doc.sex == 1 ? '男':'女',
+                alias:doc.alias,
+                _id:doc._id
+            };
+            req.session.loginInfo = userInfo;
+            req.app.locals.loginInfo = Object.assign({}, userInfo ,{loginDate:Date.now()});
+            res.json(msg.success);
+        });
     }
 };
 
 module.exports = {
     '/:id': {
-        'post': function(req, res, next) {
+        'post': function (req, res, next) {
             console.log(req.originalUrl);
             actions[req.params.id] ? actions[req.params.id].apply(this, arguments) : next();
         }

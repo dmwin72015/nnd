@@ -1,4 +1,5 @@
 const types = require('./types');
+const err = require('../schema/error');
 
 
 /**
@@ -12,12 +13,12 @@ function SchemaType(schema, data) {
 
     this.validation = [];
     this.result = data || {};
-    this.validate(schema, data);
+    this.init(schema, data);
 
 }
 
 // 验证
-SchemaType.prototype.validate = function (schema, data) {
+SchemaType.prototype.init = function (schema, data) {
     var paths = schema.paths;
     var options = schema.options;
     var keys = Object.keys(paths);
@@ -29,13 +30,19 @@ SchemaType.prototype.validate = function (schema, data) {
             options.strict && (result[curKey] = null);
             break;
         } else {
+
             var curSaType = types['schema'+getSaType(schema[curKey].type)];
+
             if(curSaType){
-                var _result = new curSaType(schema[curKey] , data[curKey]);
+                var _result = curSaType(schema[curKey] , data[curKey]);
+
+                console.log(_result, '数据类型');
 
                 if(_result.val){
 
                 }
+            }else{
+                this.validation.push(err.UNKOWN_TYPE);
             }
         }
     }

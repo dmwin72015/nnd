@@ -26,7 +26,7 @@
     "jquery": "^3.2.1",
     "moment": "^2.18.1",
     "mongodb": "^2.2.26",
-    "mongoose": "^4.10.8",
+    "mongoose": "^4.11.3",
     "mongoskin": "^2.1.0",
     "morgan": "~1.7.0",
     "particles.js": "^2.0.0",

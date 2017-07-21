@@ -7,15 +7,11 @@ function Schema(obj, options) {
         return new Schema(obj, options);
     }
     this.paths = obj || {};
-    this._requiredpaths = [];
-    this.options = this.defaultOption(options);
+    this._requiredpaths = null;
+    this.options = this.defaultOptions(options);
     this.collections = null;
     this.validators = [];
-
-    this.on('', function () {
-
-
-    });
+    this.initRequiredPaths();
 }
 
 // 把ID转字符串
@@ -31,8 +27,6 @@ function idGetter() {
 Schema.prototype = Object.create(EventEmitter.prototype);
 
 Schema.prototype.constructor = Schema;
-
-Schema.prototype.instanceOfSchema = true;
 
 Schema.prototype.defaultOptions = function (options) {
     if (options && options.safe === false) {
@@ -75,8 +69,8 @@ Schema.prototype.defaultOptions = function (options) {
 };
 
 // 获取必须字段
-Schema.prototype.requiredPaths = function (isCache) {
-    if (this._requiredPath && !isCache) {
+Schema.prototype.initRequiredPaths = function (isCache) {
+    if (this._requiredpaths && !isCache) {
         return this._requiredpaths;
     }
     var paths = Object.keys(this.paths),
@@ -85,7 +79,7 @@ Schema.prototype.requiredPaths = function (isCache) {
 
     while (i--) {
         var path = paths[i];
-        if (this.paths[path].isRequired) {
+        if (this.paths[path].required) {
             ret.push(path);
         }
     }
@@ -94,6 +88,7 @@ Schema.prototype.requiredPaths = function (isCache) {
 };
 
 Schema.prototype.validate = function (data, callback) {
+
     data = data || data;
     var _this = this;
     var reqPaths = this._requiredpaths;
@@ -102,8 +97,7 @@ Schema.prototype.validate = function (data, callback) {
     //验证必须字段
     for (var i = 0; i < reqPaths.length; i++) {
         if (!data[reqPaths[i]]) {
-            _this.validators.push(err.requireErr(reqPaths[i]));
-            callback(_this.validators);
+            callback(err.requireErr(reqPaths[i]));
             return;
         }
     }
@@ -113,9 +107,14 @@ Schema.prototype.validate = function (data, callback) {
 
     if (saType.validation.length) {
         callback(saType.validation);
+        saType = null;
         return
     }
 
     callback(null, saType.result);
+    saType = null;
 };
-
+Schema.prototype.clearResult = function (){
+    this.validators.length = 0;
+};
+module.exports = exports = Schema;

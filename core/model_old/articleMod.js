@@ -1,4 +1,3 @@
-const db = require('../lib/connectDB');
 const mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
@@ -53,6 +52,6 @@ let articleField = {
 
 let articleSchema = new Schema(articleField);
 
-let articleModel = db.model('article', articleSchema);
+let articleModel = mongoose.model('article', articleSchema);
 
 module.exports = exports = articleModel;

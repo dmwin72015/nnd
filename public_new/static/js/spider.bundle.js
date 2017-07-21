@@ -29,7 +29,7 @@ var _locals = {
         this.options = {
             opacity: 0.4,
             strict: true,
-            close: '.model-close',
+            close: '.model_old-close',
             wraper: 'body',
             status: 'empty'
         };
@@ -48,8 +48,8 @@ var _locals = {
         no  ---- 取消按钮  默认功能：隐藏弹框
         strict  ------ 严格 1 宽松 0 默认：1
     
-        <div class="model-box box jira">
-            <a href="javascript:;" class="model-close"></a>
+        <div class="model_old-box box jira">
+            <a href="javascript:;" class="model_old-close"></a>
             <div class="box-head">
                 <h3 class="title">登录JIRA</h3>
             </div>  
@@ -147,7 +147,7 @@ var _locals = {
         },
 
         render: function(options, data) {
-            var _html = '<div class="model-box box <%=css%>"><a href="javascript:;" class="model-close"></a>';
+            var _html = '<div class="model_old-box box <%=css%>"><a href="javascript:;" class="model_old-close"></a>';
 
             if (data.title) {
                 _html += '<div class="box-head <%=head.class%>"><h3 class="title"><%=title%></h3></div>';

@@ -1,23 +1,24 @@
+
 function test(req, res , next){
-
-    var query = req.query;
-    if (query.a) {
-        res.send('所有test下路径');
-    } else {
-        next();
-    }
-
+    var data = {
+        id:Date.now(),
+        title :'测试内容标题',
+        subTitle:'子标题',
+        author:'速冻',
+        editor:'当前登录用户',
+        createdDate:new Date(),
+        htmlContent:'<div></div>',
+        textContent:'adsa',
+        source:'哈哈'
+    };
 }
 
 module.exports = {
-    '*': {
-        'all': test
-    },
+    // '*': {
+    //     'all': testxx
+    // },
 
     '/:action':{
-    	get:function(){
-
-    		
-    	}
+    	get:test
     }
 }

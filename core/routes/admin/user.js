@@ -49,7 +49,7 @@ module.exports = {
         var curUser = req.session.loginInfo;
         console.log(req.session);
         if (curUser) {
-            userMod.findOne({ uid: curUser.id }, function(err, data) {
+            userMod.findOne({ _id: curUser._id }, function(err, data) {
                 if(err || !data){
                     next();
                     return;
@@ -79,7 +79,6 @@ module.exports = {
                     { title: '组', val: data.gname || '无' },
                     { title: '注册时间', val: data.created.toLocaleString() }
                 ];
-                re_data.name = '测试';
                 res.render('user/index.html',re_data);
             });
         }else{

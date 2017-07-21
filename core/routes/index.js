@@ -11,12 +11,9 @@ module.exports = {
     '/test': {
         all: function(req, res, next) {
             var query = req.query;
-            console.log(query);
-            if (query.a) {
-                res.send('所有test下路径');
-            } else {
-                next();
-            }
+            console.log('test...');
+            next();
+            // res.send('所有test下路径');
         }
     }
 }

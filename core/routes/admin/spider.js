@@ -199,6 +199,7 @@ function getJiraControl(req, res, next) {
 
 module.exports = {
     '/': function (req, res, next) {
+        // console.log(req.app.locals);
         res.render('spider/get', {
             titleName: '抓取页面'
         });

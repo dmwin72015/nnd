@@ -36,16 +36,16 @@
             </h3>\
             <div class="box-body">\
                 <div class="reg-view" @focus.capture="clearValidTip">\
-                    <p><input type="text" name="reg_name" v-bind:class="{err:nameErr}" v-bind:placeholder="tip_name" v-model="uname">\
+                    <p><input type="text" name="reg_name" v-bind:class="{err:nameErr}" v-bind:placeholder="tip_name" v-model_old="uname">\
                         <err-tip v-bind:status="nameErr" v-bind:class="errClass" v-bind:msg="errMsg"></err-tip>\
                     </p>\
-                    <p><input type="password" name="reg_pwd1" v-bind:class="{err:pwdErr1}" v-bind:placeholder="tip_pwd" v-model="upwd1">\
+                    <p><input type="password" name="reg_pwd1" v-bind:class="{err:pwdErr1}" v-bind:placeholder="tip_pwd" v-model_old="upwd1">\
                         <err-tip v-bind:status="pwdErr1" v-bind:class="errClass" v-bind:msg="errMsg"> </err-tip>\
                     </p>\
-                    <p><input type="password" name="reg_pwd2" v-bind:class="{err:pwdErr2}" v-bind:placeholder="tip_pwd2" v-model="upwd2">\
+                    <p><input type="password" name="reg_pwd2" v-bind:class="{err:pwdErr2}" v-bind:placeholder="tip_pwd2" v-model_old="upwd2">\
                         <err-tip v-bind:status="pwdErr2" v-bind:class="errClass" v-bind:msg="errMsg"> </err-tip>\
                     </p>\
-                    <p><input type="text" name="reg_picode" v-bind:class="{err:capErr}" v-bind:placeholder="tip_pcode" v-model="ucaptcha"/>\
+                    <p><input type="text" name="reg_picode" v-bind:class="{err:capErr}" v-bind:placeholder="tip_pcode" v-model_old="ucaptcha"/>\
                         <span class="pic-code" v-on:click="flashCode"><img :src="tcha_url" :alt="tip_pcode"></span>\
                         <err-tip v-bind:status="capErr" v-bind:class="errClass" v-bind:msg="errMsg"> </err-tip>\
                     </p>\

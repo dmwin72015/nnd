@@ -12,7 +12,7 @@
                 <td>{{item.title}}</td>\
                 <td>\
                     <span v-if="getStatus" class="item-val">{{item.val}}</span> \
-                    <input v-else class="item-val" type="text" v-model="item.val">\
+                    <input v-else class="item-val" type="text" v-model_old="item.val">\
                 </td>\
             </tr>\
             </tbody>\
