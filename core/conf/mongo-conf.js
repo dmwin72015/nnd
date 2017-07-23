@@ -22,4 +22,4 @@ module.exports = function(env) {
         url: url,
         conf: conf[env]
     }
-}
+};

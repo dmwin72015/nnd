@@ -27,7 +27,7 @@ let articleField = {
         trim: true
     },
     editor: {
-        type:ObjectId,
+        type:Schema.Types.ObjectId,
         required: true
     },
     createdDate: { //创建日期

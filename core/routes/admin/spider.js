@@ -1,7 +1,7 @@
 const co = require('co');
 const cheerio = require('cheerio');
 const st = require('../../lib/status.js');
-const baseRequest = require('../../lib/request.js');
+const baseRequest = require('../../lib/NativeRequest.js');
 
 
 var default_option = {

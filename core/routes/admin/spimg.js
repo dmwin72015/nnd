@@ -1,6 +1,6 @@
 "use strict";
 const co = require('co');
-const baseRequest = require('../../lib/request.js');
+const baseRequest = require('../../lib/NativeRequest.js');
 const cheerio = require('cheerio');
 const saveImg = require('../../lib/saveImg').saveImg;
 const saveImg_async = require('../../lib/saveImg').saveImg_async;

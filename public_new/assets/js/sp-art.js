@@ -13,6 +13,7 @@
             type: 'post',
             data: {url:$('#art_url').val()},
             success: function (data) {
+                console.log(data);
                 if (data && data.status == 1) {
                     var html = renderArtlist(data.data);
                     artCont.innerHTML = html;

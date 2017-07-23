@@ -40,8 +40,11 @@ function sendRequest(options, data, callback) {
             'Content-Length': Buffer.byteLength(postData),
             'X-Requested-With': 'XMLHttpRequest'
         });
-    } else {
-        options.path += decodeURIComponent('?' + querystring.stringify(sendData));
+    } else if (method == 'get') {
+        // options.path += decodeURIComponent('?' + querystring.stringify(sendData));
+        if (!_.isEmpty(sendData)) {
+            options.path += decodeURIComponent('?' + querystring.stringify(sendData));
+        }
     }
 
     if (!options.path.startsWith('/')) {
@@ -50,9 +53,13 @@ function sendRequest(options, data, callback) {
 
     let httpObj = options.protocol == 'https:' ? (options.port = 443) && https : (options.port = 80) && http;
 
-    delete  options.protocol;
+    delete options.protocol;
 
+    console.log(options);
+    console.log('参数>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+    console.log(Date.now());
     let req = httpObj.request(options, (resp) => {
+
         if (resp.statusCode == 200) {
             if (options.method == 'head') {
                 callback(null, resp);
@@ -60,8 +67,10 @@ function sendRequest(options, data, callback) {
                 let allData = [];
                 resp.on('data', function (trunk) {
                     allData.push(trunk);
+                    console.log(trunk.length, Date.now());
                 });
                 resp.on('end', function (trunk) {
+                    console.log('over', Date.now());
                     callback(null, [resp, Buffer.concat(allData)]);
                 });
             }
@@ -95,16 +104,23 @@ function sendRequest(options, data, callback) {
         req.write(sendData);
     }
     req.end();
-    req.setTimeout(options.timeout || 2000, (err) => {
-        callback(st.TIMEOUT_MSG);
-    });
+    // req.setTimeout(options.timeout || 2000, (err) => {
+    //     callback(st.TIMEOUT_MSG);
+    // });
 }
 
 
-function request(opt,callback) {
+function request(opt, callback) {
     opt = opt || {};
+    if (typeof opt == 'string') {
+        opt = {
+            req: parseUrl(opt)
+        };
+    }
+
     //发送请求的参数
     let reqOpt = opt.req || {};
+
     if (!reqOpt.host && !reqOpt.hostname) {
         return function (callback) {
             callback(st.HOST_ERROR_MSG);
@@ -128,9 +144,9 @@ function request(opt,callback) {
 
 
 module.exports = request;
-module.exports.req_async = function (opt , callback) {
+module.exports.req_async = function (opt, callback) {
     var _options = {};
-    if(typeof opt =='string'){
+    if (typeof opt == 'string') {
         _options.req = parseUrl(opt);
     }
     var async_opt = _.extend({}, _options, {async: true});
@@ -223,6 +239,13 @@ module.exports.saveCookie = function (cookieArray) {
 
     };
 };
+
+function saveCookie(cookies) {
+    for (var name in cookies) {
+        cookie.push('');
+    }
+}
+
 /*
  * {
  protocol: 'https:',

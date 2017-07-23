@@ -1,6 +1,6 @@
 const db = require('../lib/connectDB');
 const mongoose = require('mongoose');
-let Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 /**
  *  用户字段

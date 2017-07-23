@@ -3,7 +3,7 @@
  */
 const fs = require('fs');
 const path = require('path');
-const baseRequest = require('./request');
+const baseRequest = require('./NativeRequest');
 const co = require('co');
 const cndPath = require('../conf/cnd-conf');
 const log = require('../lib/logger');
