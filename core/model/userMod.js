@@ -1,7 +1,4 @@
-const db = require('../lib/connectDB');
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-
+const factoryModel = require('./baseMod');
 /**
  *  用户字段
  *  uid      登陆账号 (unique max:50)
@@ -41,7 +38,7 @@ let userField = {
         enum: ['1', '0']
     },
     _gid: {
-        type: Schema.Types.ObjectId
+        type: factoryModel.Schema.Types.ObjectId
     },
     created: {
         type: Date,
@@ -49,11 +46,11 @@ let userField = {
     }
 };
 
-let userSchema = new Schema(userField);
+// let userSchema = new Schema(userField);
 
-let userModel = db.model('users', userSchema);
+// let userModel = db.model('users', userSchema);
 
-module.exports = exports = userModel;
+module.exports = exports = factoryModel('users', userField);
 
 // let ERRMSG_LOST_Login = exports.ERRMSG_LOST_Login = {
 //     code: '-100',
@@ -88,9 +85,9 @@ exports.LOGIN_TIP_INFO = {
         code: '-101',
         msg: '账号不存在'
     },
-    name_pwd_err:{
-        code:'-103',
-        msg:'用户名或者密码错误'
+    name_pwd_err: {
+        code: '-103',
+        msg: '用户名或者密码错误'
     },
     name_typeErr: {
         code: '-102',
@@ -108,8 +105,8 @@ exports.LOGIN_TIP_INFO = {
         code: '-300',
         msg: '验证码错误'
     },
-    server_err:{
-        code:'-400',
-        msg:'未知错误'
+    server_err: {
+        code: '-400',
+        msg: '未知错误'
     }
 };

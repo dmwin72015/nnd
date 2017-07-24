@@ -39,7 +39,7 @@ var ignor = ['!(_search|_search_container|transfer|search).js.html'];
 
 var all = ignor.concat(entry);
 
-gulp.task('tt', function(cb) {
+gulp.task('www-home', function(cb) {
     gulp.src(all)
         .pipe(plumber())
         .pipe(myPlug.remove())
@@ -62,6 +62,21 @@ gulp.task('tw-js', function(cb) {
     gulp.src(entry3)
         .pipe(uglify())
         .pipe(gulp.dest(dest3));
+});
+
+
+//分支
+var path = ['/xin/project/www/jira-6772/application/views/assets_src/quotation/index.js.html'];
+var target =  '/xin/project/www/jira-6772/application/views/assets/quotation/';
+// var entry_bran = ['/xin/project/www/jira-6772/application/views/assets_src/**/*.js.html'];
+// var dest_bran = '/xin/project/www/jira-6772/application/views/assets';
+gulp.task('br-js', function(cb) {
+    gulp.src(path)
+        .pipe(plumber())
+        .pipe(myPlug.remove())
+        .pipe(uglify())
+        .pipe(myPlug.add())
+        .pipe(gulp.dest(target));
 });
 
 

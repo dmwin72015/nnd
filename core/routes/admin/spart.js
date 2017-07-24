@@ -2,9 +2,13 @@
 const co = require('co');
 const baseRequest = require('../../lib/NativeRequest.js');
 const cheerio = require('cheerio');
-const articleMod = require('../../model/articleMod');
 const request = require('request').defaults({jar: true});
 const fs = require('fs');
+const async = require('async');
+const iconv = require('iconv-lite');
+
+const articleMod = require('../../model/articleMod');
+const movieMod = require('../../model/movieMod');
 
 let haha_conf = {
     hostname: 'www.haha.mx'
@@ -20,7 +24,7 @@ const headers = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3009.0 Safari/537.36',
     'Connection': 'keep-alive',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-    'Cookie':'UM_distinctid=15d6e93d3815c2-068c0bfe9693b1-6e300078-13c680-15d6e93d382868; CNZZDATA1262672230=1695766143-1500798425-http%253A%252F%252Fwww.ruanyifeng.com%252F%7C1500798425; _ga=GA1.2.1039980269.1500798768; _gid=GA1.2.1472451063.1500798768; _gat=1'
+    'Cookie': 'UM_distinctid=15d6e93d3815c2-068c0bfe9693b1-6e300078-13c680-15d6e93d382868; CNZZDATA1262672230=1695766143-1500798425-http%253A%252F%252Fwww.ruanyifeng.com%252F%7C1500798425; _ga=GA1.2.1039980269.1500798768; _gid=GA1.2.1472451063.1500798768; _gat=1'
 };
 
 function saveCookie(target) {
@@ -65,36 +69,6 @@ function getArticleInfo(sHtml) {
     data.source = 'ryf';
     return data;
 }
-
-// function getArtControl(req, res, next) {
-//     // var url = req.body.url;
-//     var url = 'http://www.ruanyifeng.com/blog/2017/06/life-after-45.html';
-//     co(function *() {
-//         var result = yield getArt(url);
-//         saveCookie(result[0]);
-//         return getArticleInfo(result[1]);
-//     }).then((data) => {
-//         if(!req.session.loginInfo){
-//             res.json({
-//                 code:'-2',
-//                 msg:'请登录之后操作'
-//             });
-//             return;
-//         }
-//         data.editor = req.session.loginInfo._id;
-//         var article = new articleMod(data);
-//         article.save(function(err , doc){
-//             if(err){
-//                 res.json(err);
-//                 return;
-//             }
-//             res.json(doc);
-//         });
-//     }).catch((e) => {
-//         console.log(e);
-//         res.json(e);
-//     });
-// }
 
 function getArtControl(req, res, next) {
     var url = req.body.url;
@@ -157,7 +131,6 @@ function getArtControl(req, res, next) {
     })
 }
 
-
 function testPipe(req, res, next) {
     request.get('https://avatars2.githubusercontent.com/u/17537753?v=4&u=c8eb421c0c796aab82f02e8edb2e2afcda406aba&s=400')
         .on('response', function (resp) {
@@ -199,6 +172,83 @@ function saveImg(req, res, next) {
         });
 }
 
+
+function parseMovieHtml(sHtml) {
+    var $ = cheerio.load(sHtml);
+    var $main = $('#Zoom');
+    var sHtml = $main.text();
+    var result = sHtml.match(/◎译　　名(.*?)◎/);
+    return sHtml;
+
+    var _movie = {
+        en_name: '',
+        trans_name: '',
+        cn_name: '',
+        year: '',
+        origin: '',
+        category: '',
+        language: '',           //语言
+        subtitle: '',           //字幕
+        release_date: '',
+        IMDb_score: '',
+        IMDb_link: '',
+        douban_score: '',       //豆瓣评分
+        file_format: '',        //文件格式
+        resolution: '',         //分辨率,视屏尺寸
+        file_size: {            //文件大小
+            val: '',
+            unit: ''
+        },
+        duration: {             //时长
+            val: '',
+            unit: ''
+        },
+        director: [],           //导演
+        performer: [],          //演员
+        introduction: '',       //简介
+        awards: [],             //获奖情况
+        poster: '',             //海报
+        creenshots: [''],       //其他图片
+        download_urls: [{
+            type: '百度云',
+            url: ''
+        }, {
+            type: '迅雷',
+            url: ''
+        }]
+    };
+    return _movie;
+}
+
+
+function getMovieDetail(req, res, next) {
+    var url = req.body.url;
+    if (!/^https?:\/\//.test(url)) {
+        res.json({
+            code: '-4',
+            msg: 'url格式不正确'
+        })
+    }
+    var reqData = {
+        url: url,
+        gzip: true
+    };
+    var data = [];
+    request(reqData)
+        .on('data', (trunk)=> {
+            data.push(trunk);
+        })
+        .on('end', ()=> {
+            var htmlData = parseMovieHtml(iconv.decode(Buffer.concat(data), 'gb2312'));
+            res.json({
+                code: '1',
+                data: htmlData,
+                msg: 'success'
+            })
+        });
+}
+
+
 module.exports = {
     '/': function (req, res, next) {
         res.render('spider/get-art', {
@@ -214,6 +264,9 @@ module.exports = {
                     break;
                 case 'pipe':
                     testPipe.apply(this, arguments);
+                    break;
+                case 'movie':
+                    getMovieDetail.apply(this, arguments);
                     break;
                 default:
                     next();

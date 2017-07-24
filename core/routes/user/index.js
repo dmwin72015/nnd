@@ -41,7 +41,6 @@ let actions = {
             });
             return;
         }
-        console.log(uName);
         userMod.findOne({uid: uName}, 'uid uname upwd alias sex age', function (err, doc) {
             if (err) {
                 res.json(msg.server_err);
@@ -66,8 +65,8 @@ let actions = {
             };
             req.session.loginInfo = userInfo;
             req.app.locals.loginInfo = Object.assign({}, userInfo ,{loginDate:Date.now()});
-            // res.json(msg.session_404);
-            res.json(userInfo);
+            res.json(msg.success);
+            // res.json(userInfo);
         });
     }
 };

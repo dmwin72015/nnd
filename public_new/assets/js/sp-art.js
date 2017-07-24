@@ -11,7 +11,7 @@
         $.ajax({
             url: '/admin/spart/art',
             type: 'post',
-            data: {url:$('#art_url').val()},
+            data: {url: $('#art_url').val()},
             success: function (data) {
                 console.log(data);
                 if (data && data.status == 1) {
@@ -77,4 +77,25 @@
         sHtml += '</ul>';
         $('.img-list').html(sHtml);
     };
+
+    $('#get_movie').click(function () {
+        var url = $('#movie_url').val();
+        url = 'http://www.dytt8.net/html/gndy/dyzz/20170723/54571.html';
+        if (!url) {
+            return;
+        }
+        $.ajax({
+            url: '/admin/spart/movie',
+            type: 'post',
+            data: {url: url}
+        }).done(function (body, text, xhr) {
+            var html = body.data;
+            var result = html.match(/◎译\s*名(.*?)◎/);
+
+            console.log(result);
+
+        }).fail(function (xhr) {
+
+        })
+    });
 }();

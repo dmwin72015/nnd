@@ -1,6 +1,4 @@
-const db = require('../lib/connectDB');
-const mongoose = require('mongoose');
-let Schema = mongoose.Schema;
+const factoryModel = require('./baseMod');
 
 let articleField = {
     // id: { //ID 唯一标识
@@ -27,7 +25,7 @@ let articleField = {
         trim: true
     },
     editor: {
-        type:Schema.Types.ObjectId,
+        type:factoryModel.Schema.Types.ObjectId,
         required: true
     },
     createdDate: { //创建日期
@@ -51,8 +49,8 @@ let articleField = {
     }
 };
 
-let articleSchema = new Schema(articleField);
+// let articleSchema = new Schema(articleField);
 
-let articleModel = db.model('article', articleSchema);
+// let articleModel = db.model('article', articleSchema);
 
-module.exports = exports = articleModel;
+module.exports = exports = factoryModel('article', articleField);

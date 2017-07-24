@@ -1,27 +1,19 @@
 "use strict";
 const co = require('co');
-const baseRequest = require('../../lib/NativeRequest.js');
 const cheerio = require('cheerio');
 const saveImg = require('../../lib/saveImg').saveImg;
 const saveImg_async = require('../../lib/saveImg').saveImg_async;
+const request = require('request');
+const fs = require('fs');
 
-var COOKIE = {};
+var Cookie = {};
 
 function randomNum(m, n) {
     return Math.floor(Math.random() * (m - n + 1) + n);
 }
 
 function saveCookie(host, target) {
-    var allCookie = baseRequest.saveCookie(target.headers['set-cookie']);
-    var cookie_str = '';
-    for(var ck in allCookie){
-        cookie_str += ck + ':' + allCookie[ck].val
-        //JSESSIONID=1D9CE7727B6DE8EF924D74F68468E6D6
-    }
-    if(!COOKIE[host]){
-        COOKIE[host] = cookie_str;
-    }
-    return cookie_str;
+
 }
 
 //https://500px.me/community/discover
@@ -36,13 +28,6 @@ let conf = {
         'X-Tingyun-Id': 'Fm3hXcTiLT8;r=44021787'
     }
 };
-
-//获取页面内容
-function getHtml(opt) {
-    return baseRequest({
-        req: conf
-    });
-}
 
 //从接口获取数据
 function getDataFromAPI() {
@@ -65,7 +50,7 @@ function getDataFromAPI() {
             'X-Tingyun-Id': 'Fm3hXcTiLT8;r=44021787'
         }
     };
-    if(COOKIE && COOKIE['500px']){
+    if (COOKIE && COOKIE['500px']) {
         conf.headers.Cookie = COOKIE['500px'];
     }
     return baseRequest({
@@ -97,15 +82,42 @@ function parseJSONData(data) {
     }
 }
 
+function patchImg(req, res, next) {
+    // http://img.mmjpg.com/2017/1054/1-46.jpg
+    var imgsNumber = 46;
+    var paths = [];
+    for (var i = 1; i <= imgsNumber; i++) {
+        var imgPath = '/xin/static_source/mmjpg/2017_1054_' + i + '.jpg';
+        paths.push({
+            id: '2017_1054_' + i,
+            relPath: imgPath,
+            path:'//cdn.me/mmjpg/2017_1054_' + i + '.jpg'
+        });
+        var writer = fs.createWriteStream('/xin/static_source/mmjpg/2017_1054_' + i + '.jpg');
+        request('http://img.mmjpg.com/2017/1054/' + i + '.jpg').pipe(writer);
+        writer.on('finish', ()=> {
+            imgsNumber--;
+
+            if (imgsNumber == 0) {
+                res.json({
+                    status: '1',
+                    data: paths,
+                    msg: 'success'
+                })
+            }
+        });
+    }
+}
+
+
 function getArtControl(req, res, next) {
     co(function *() {
         var resApi = yield getDataFromAPI();
 
         //保存cookie
-        saveCookie('500px',resApi[0]);
+        saveCookie('500px', resApi[0]);
 
         var apiData = resApi[1].toString();
-
 
 
         var img_res = yield parseJSONData(apiData);
@@ -135,7 +147,7 @@ module.exports = {
     '/:action': {
         post: function (req, res, next) {
             if (req.params.action == 'img') {
-                getArtControl.apply(this, arguments);
+                patchImg.apply(this, arguments);
             } else {
                 next();
             }
