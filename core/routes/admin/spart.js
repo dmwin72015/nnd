@@ -2,7 +2,9 @@
 const co = require('co');
 const baseRequest = require('../../lib/NativeRequest.js');
 const cheerio = require('cheerio');
-const request = require('request').defaults({jar: true});
+const request = require('request').defaults({
+    jar: true
+});
 const fs = require('fs');
 const async = require('async');
 const iconv = require('iconv-lite');
@@ -24,7 +26,7 @@ const headers = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3009.0 Safari/537.36',
     'Connection': 'keep-alive',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-    'Cookie': 'UM_distinctid=15d6e93d3815c2-068c0bfe9693b1-6e300078-13c680-15d6e93d382868; CNZZDATA1262672230=1695766143-1500798425-http%253A%252F%252Fwww.ruanyifeng.com%252F%7C1500798425; _ga=GA1.2.1039980269.1500798768; _gid=GA1.2.1472451063.1500798768; _gat=1'
+    'Cookie': 'Hm_lvt_f89e0235da0841927341497d774e7b15=1500900864; Hm_lpvt_f89e0235da0841927341497d774e7b15=1500903642; _ga=GA1.2.1046011474.1498574561; _gid=GA1.2.894751301.1500900863'
 };
 
 function saveCookie(target) {
@@ -43,7 +45,7 @@ function getArt(url) {
 function getImgFromArt(sHtml) {
     var $ = cheerio.load(sHtml);
     var data = [];
-    $('#homepage .module-list-item').each(function (i, elm) {
+    $('#homepage .module-list-item').each(function(i, elm) {
         var href = $(elm).find('a').attr('href');
         var title = $(elm).find('a').text();
         var time = $(elm).find('span').text();
@@ -58,6 +60,7 @@ function getImgFromArt(sHtml) {
 // 获取ryf的文章信息
 
 function getArticleInfo(sHtml) {
+
     var $ = cheerio.load(sHtml);
     var data = {};
     var $article = $('article.hentry');
@@ -79,13 +82,13 @@ function getArtControl(req, res, next) {
         });
         return;
     }
-    if (!req.session.loginInfo) {
-        res.json({
-            code: '-3',
-            msg: '请登录之后操作'
-        });
-        return;
-    }
+    // if (!req.session.loginInfo) {
+    //     res.json({
+    //         code: '-3',
+    //         msg: '请登录之后操作'
+    //     });
+    //     return;
+    // }
 
     let options = {
         url: url,
@@ -104,8 +107,7 @@ function getArtControl(req, res, next) {
     //         msg: Buffer.concat(dataArr).toString()
     //     })
     // });
-    request(options, (err, response, body)=> {
-        console.log(response.headers);
+    request(options, (err, response, body) => {
         if (err) {
             console.log(err, '=====>network err')
             res.json({
@@ -119,27 +121,27 @@ function getArtControl(req, res, next) {
         srcData.editor = req.session.loginInfo._id;
         var article = new articleMod(srcData);
         article.save()
-            .then((doc)=> {
+            .then((doc) => {
                 res.json({
                     code: "1",
                     data: doc,
                     msg: 'success'
                 })
-            }).catch((err)=> {
-            res.json(err);
-        });
+            }).catch((err) => {
+                res.json(err);
+            });
     })
 }
 
 function testPipe(req, res, next) {
     request.get('https://avatars2.githubusercontent.com/u/17537753?v=4&u=c8eb421c0c796aab82f02e8edb2e2afcda406aba&s=400')
-        .on('response', function (resp) {
+        .on('response', function(resp) {
             // res.json(resp);
         })
-        .on('error', (err)=> {
+        .on('error', (err) => {
             console.log(err);
         })
-        .pipe(request.put('http://node.com/admin/spart/aa?a=12', (err, resp, body)=> {
+        .pipe(request.put('http://node.com/admin/spart/aa?a=12', (err, resp, body) => {
             if (err) {
                 res.json({
                     code: '-1',
@@ -164,7 +166,7 @@ function saveImg(req, res, next) {
     // })
     var writer = fs.createWriteStream('/xin/memory/nnd/public_new/assets/img/logo2.png');
     req.pipe(writer)
-        .on('finish', ()=> {
+        .on('finish', () => {
             res.json({
                 code: 1,
                 data: ['/xin/memory/nnd/public_new/assets/img/logo.png']
@@ -176,39 +178,69 @@ function saveImg(req, res, next) {
 function parseMovieHtml(sHtml) {
     var $ = cheerio.load(sHtml);
     var $main = $('#Zoom');
-    var sHtml = $main.text();
-    var result = sHtml.match(/◎译　　名(.*?)◎/);
-    return sHtml;
+    var sText = $main.text().replace(/[\r\s]*/, '');
+
+    var sText = document.querySelector('#Zoom p:first-child').textContent.replace(/[\r\s]*/, '');
+    var specialChar = '◎';
+    var fieldMap = {
+        '译名': 'cn_name',
+        '片名': 'en_name',
+        '年代': 'year',
+        '产地': 'origin',
+        '类别': 'category',
+        '语言': 'language',
+        '字幕': 'subtitle',
+        '上映日期': 'release_date',
+        'IMDb评分': 'IMDb_score',
+        'IMDb链接': 'IMDb_link',
+        '文件格式': 'file_format',
+        '视频尺寸': 'resolution',
+        '文件大小': 'file_size',
+        '片长': 'duration',
+        '导演': 'director',
+        '主演': 'actors',
+        '简介': 'introduction',
+        '获奖情况': 'awards',
+    };
+    var regKeys = [];
+    Object.keys(fieldMap).forEach(function(ele, index) {
+        regKeys.push(specialChar + ele + '(.*?)' + specialChar);
+    });
+    var source = '(?:' + regKeys.join('|') + ')';
+    var replaceRegexp = RegExp(source, 'ig');
+
+    sText.replace(replaceRegexp, function(match) {
+        console.log(match);
+    });
+
+
 
     var _movie = {
-        en_name: '',
+        en_name: en_name && en_name[1],
         trans_name: '',
-        cn_name: '',
+        cn_name: cn_name && cn_name[1],
         year: '',
         origin: '',
         category: '',
-        language: '',           //语言
-        subtitle: '',           //字幕
+        language: '', //语言
+        subtitle: '', //字幕
         release_date: '',
         IMDb_score: '',
         IMDb_link: '',
-        douban_score: '',       //豆瓣评分
-        file_format: '',        //文件格式
-        resolution: '',         //分辨率,视屏尺寸
-        file_size: {            //文件大小
+        douban_score: '', //豆瓣评分
+        file_format: '', //文件格式
+        resolution: '', //分辨率,视屏尺寸
+        file_size: '', //文件大小
+        duration: { //时长
             val: '',
             unit: ''
         },
-        duration: {             //时长
-            val: '',
-            unit: ''
-        },
-        director: [],           //导演
-        performer: [],          //演员
-        introduction: '',       //简介
-        awards: [],             //获奖情况
-        poster: '',             //海报
-        creenshots: [''],       //其他图片
+        director: [], //导演
+        actors: [], //演员
+        introduction: '', //简介
+        awards: [], //获奖情况
+        poster: '', //海报
+        creenshots: [''], //其他图片
         download_urls: [{
             type: '百度云',
             url: ''
@@ -235,11 +267,12 @@ function getMovieDetail(req, res, next) {
     };
     var data = [];
     request(reqData)
-        .on('data', (trunk)=> {
+        .on('data', (trunk) => {
             data.push(trunk);
         })
-        .on('end', ()=> {
-            var htmlData = parseMovieHtml(iconv.decode(Buffer.concat(data), 'gb2312'));
+        .on('end', () => {
+            var html = iconv.decode(Buffer.concat(data), 'gb2312');
+            var htmlData = parseMovieHtml(html);
             res.json({
                 code: '1',
                 data: htmlData,
@@ -250,13 +283,13 @@ function getMovieDetail(req, res, next) {
 
 
 module.exports = {
-    '/': function (req, res, next) {
+    '/': function(req, res, next) {
         res.render('spider/get-art', {
             titleName: '抓取文章页面'
         });
     },
     '/:action': {
-        post: function (req, res, next) {
+        post: function(req, res, next) {
             var action = req.params.action;
             switch (action) {
                 case 'art':
@@ -273,7 +306,7 @@ module.exports = {
 
             }
         },
-        put: function () {
+        put: function() {
             saveImg.apply(this, arguments);
         }
     }

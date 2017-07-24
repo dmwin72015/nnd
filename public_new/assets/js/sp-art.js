@@ -80,7 +80,7 @@
 
     $('#get_movie').click(function () {
         var url = $('#movie_url').val();
-        url = 'http://www.dytt8.net/html/gndy/dyzz/20170723/54571.html';
+        // url = 'http://www.dytt8.net/html/gndy/dyzz/20170723/54571.html';
         if (!url) {
             return;
         }
@@ -90,9 +90,8 @@
             data: {url: url}
         }).done(function (body, text, xhr) {
             var html = body.data;
-            var result = html.match(/◎译\s*名(.*?)◎/);
-
-            console.log(result);
+            var result = html.match(/◎译\s*名(.*?)◎/); 
+            $('.art-content').html(html);
 
         }).fail(function (xhr) {
 
