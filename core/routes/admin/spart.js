@@ -45,7 +45,7 @@ function getArt(url) {
 function getImgFromArt(sHtml) {
     var $ = cheerio.load(sHtml);
     var data = [];
-    $('#homepage .module-list-item').each(function(i, elm) {
+    $('#homepage .module-list-item').each(function (i, elm) {
         var href = $(elm).find('a').attr('href');
         var title = $(elm).find('a').text();
         var time = $(elm).find('span').text();
@@ -96,20 +96,8 @@ function getArtControl(req, res, next) {
         timeout: 5000
     };
     let dataArr = [];
-    // request(options).on('data', (trunk)=> {
-    //     dataArr.push(trunk);
-    // }).on('end', (data)=> {
-    //     console.log('OVER=>', data);
-    //
-    //
-    //     res.json({
-    //         code: "1",
-    //         msg: Buffer.concat(dataArr).toString()
-    //     })
-    // });
     request(options, (err, response, body) => {
         if (err) {
-            console.log(err, '=====>network err')
             res.json({
                 code: '-3',
                 data: err,
@@ -118,24 +106,31 @@ function getArtControl(req, res, next) {
             return;
         }
         var srcData = getArticleInfo(body);
-        srcData.editor = req.session.loginInfo._id;
-        var article = new articleMod(srcData);
-        article.save()
-            .then((doc) => {
-                res.json({
-                    code: "1",
-                    data: doc,
-                    msg: 'success'
-                })
-            }).catch((err) => {
-                res.json(err);
-            });
+        res.json({
+            code: '1',
+            data: srcData,
+            body: body,
+            msg: 'success'
+        });
+        // srcData.editor = req.session.loginInfo._id;
+        // var article = new articleMod(srcData);
+        // article.save()
+        //     .then((doc) => {
+        //         res.json({
+        //             code: "1",
+        //             data: doc,
+        //             msg: 'success'
+        //         })
+        //     }).catch((err) => {
+        //     res.json(err);
+        // });
     })
 }
 
+//
 function testPipe(req, res, next) {
     request.get('https://avatars2.githubusercontent.com/u/17537753?v=4&u=c8eb421c0c796aab82f02e8edb2e2afcda406aba&s=400')
-        .on('response', function(resp) {
+        .on('response', function (resp) {
             // res.json(resp);
         })
         .on('error', (err) => {
@@ -154,24 +149,14 @@ function testPipe(req, res, next) {
 }
 
 function saveImg(req, res, next) {
-    // console.log(req);
-    // console.log(req.query.a);
-    // req.on('data',(trunk)=>{
-    //
-    //     console.log(trunk)
-    //
-    // });
-    // req.on('end',function(){
-    //
-    // })
     var writer = fs.createWriteStream('/xin/memory/nnd/public_new/assets/img/logo2.png');
-    req.pipe(writer)
-        .on('finish', () => {
-            res.json({
-                code: 1,
-                data: ['/xin/memory/nnd/public_new/assets/img/logo.png']
-            })
-        });
+    req.pipe(writer);
+    writer.on('finish', () => {
+        res.json({
+            code: 1,
+            data: ['/xin/memory/nnd/public_new/assets/img/logo.png']
+        })
+    });
 }
 
 
@@ -200,19 +185,18 @@ function parseMovieHtml(sHtml) {
         '导演': 'director',
         '主演': 'actors',
         '简介': 'introduction',
-        '获奖情况': 'awards',
+        '获奖情况': 'awards'
     };
     var regKeys = [];
-    Object.keys(fieldMap).forEach(function(ele, index) {
+    Object.keys(fieldMap).forEach(function (ele, index) {
         regKeys.push(specialChar + ele + '(.*?)' + specialChar);
     });
     var source = '(?:' + regKeys.join('|') + ')';
     var replaceRegexp = RegExp(source, 'ig');
 
-    sText.replace(replaceRegexp, function(match) {
+    sText.replace(replaceRegexp, function (match) {
         console.log(match);
     });
-
 
 
     var _movie = {
@@ -283,13 +267,13 @@ function getMovieDetail(req, res, next) {
 
 
 module.exports = {
-    '/': function(req, res, next) {
+    '/': function (req, res, next) {
         res.render('spider/get-art', {
             titleName: '抓取文章页面'
         });
     },
     '/:action': {
-        post: function(req, res, next) {
+        post: function (req, res, next) {
             var action = req.params.action;
             switch (action) {
                 case 'art':
@@ -306,7 +290,7 @@ module.exports = {
 
             }
         },
-        put: function() {
+        put: function () {
             saveImg.apply(this, arguments);
         }
     }

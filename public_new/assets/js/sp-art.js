@@ -14,9 +14,9 @@
             data: {url: $('#art_url').val()},
             success: function (data) {
                 console.log(data);
-                if (data && data.status == 1) {
-                    var html = renderArtlist(data.data);
-                    artCont.innerHTML = html;
+                if (data && data.code == 1) {
+                    // var html = renderArtlist(data.data);
+                    artCont.innerHTML = data.data.htmlContent;
                 }
             }
         }).always(function () {
@@ -90,7 +90,7 @@
             data: {url: url}
         }).done(function (body, text, xhr) {
             var html = body.data;
-            var result = html.match(/◎译\s*名(.*?)◎/); 
+            var result = html.match(/◎译\s*名(.*?)◎/);
             $('.art-content').html(html);
 
         }).fail(function (xhr) {
@@ -98,3 +98,73 @@
         })
     });
 }();
+
+(function (Vue) {
+    var detail = {
+        template: '<div class="view-wrap article-detail-box">\
+            <div class="wrap-close">\
+                <i class="fa fa-close fa-2x"></i>\
+            </div>\
+            <div class="main-content">\
+                <p>{{ title }}</p>    \
+                <p>{{ htmlContent }}</p>\
+            </div>\
+        </div>'
+    };
+    var NotFound = {
+        template: '<p>404</p>'
+    };
+
+    //静态路由
+    const routes = [
+        {path: '/detail', component: detail},
+        {path: '/404', component: NotFound}
+    ];
+
+    //动态路由
+    const router = new VueRouter({
+        routes: [
+            {path: '/detail/:id', component: detail}
+        ]
+    });
+
+    const app = new Vue({
+        router,
+        data: {},
+        created () {
+            // 组件创建完后获取数据，
+            // 此时 data 已经被 observed 了
+            this.fetchData()
+        },
+        watch: {
+            '$route': 'fetchData'
+        },
+
+        methods: {
+            fetchData (){
+                var that = this;
+                var myHeaders = new Headers();
+                var myInit = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    mode: 'cors',
+                    cache: 'default'
+                };
+                var id = this.$route.params.id;
+                console.log(id);
+                if (!id) return;
+                fetch('/admin/article/detail/' + id, myInit).then((response)=> {
+                    return response.json();
+                }).then((body)=> {
+                    that.$data.title = body.title;
+                    that.$data.htmlContent = body.htmlContent;
+                }).catch((err)=> {
+
+                })
+            }
+        }
+
+    }).$mount('#app')
+
+
+}.call(this, Vue));

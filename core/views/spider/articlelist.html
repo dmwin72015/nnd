@@ -2,22 +2,61 @@
 {<selfCss}
 <link rel="stylesheet" href="/static/css/tp-spider.css">
 <style>
-    .art-content li{
+    .art-content li {
         line-height: 30px;
         padding-left: 5px;
         border-bottom: 1px solid #f2f2f2;
-        font-size:14px;
+        font-size: 14px;
     }
+
     .art-item .author,
-    .art-item .time{
+    .art-item .time {
         float: right;
         padding: 0 5px;
     }
 
+    .spider-box {
+        position: relative;
+    }
+
+    .view-wrap {
+        position: fixed;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        overflow-y: auto;
+        background: rgba(255, 255, 255, 0.8);
+        padding-top: 40px;
+    }
+
+    .wrap-close {
+        position: absolute;
+        right: 10px;
+        top:45px;
+        width: 30px;
+        height:30px;
+        border-radius: 50%;
+        border:3px solid transparent;
+        text-align: center;
+        transition: all 0.2s;
+    }
+    .wrap-close .fa{
+        color: #999;
+        cursor: pointer;
+        margin-top:-1px;
+    }
+    .wrap-close:hover{
+        background-color: #d9534f;
+    }
+    .wrap-close:hover .fa {
+        color: #fff;
+    }
 </style>
 {/selfCss}
+
 {<content}
-<div class="box spider-box">
+<div class="box spider-box" style="display: none">
     <header class="box-head">
         <h3 class="title">文章</h3>
         <ul class="tool-panel pull-right">
@@ -27,19 +66,60 @@
         </ul>
     </header>
     <div class="box-body art-content">
-        {#articles}
         <ul>
-            <li class="art-item"><a href="">{title}</a> <span class="time">{publishDate}</span><span class=" author">{author}</span></li>
-        </ul>
+        {#articles}
+            <li class="art-item" data-id="{_id}">
+                <a href="#/{_id}">{title}</a> <span class="time">{publishDate}</span><span class=" author">{author}</span>
+            </li>
         {/articles}
+        </ul>
+    </div>
+
+</div>
+<div class="box">
+    <header class="box-head">
+        <h3 class="title">静态路由</h3>
+        <ul class="tool-panel pull-right">
+            <li>
+                <span class="tool-btn toggle-size"><i class="fa fa-chevron-up"></i></span>
+            </li>
+        </ul>
+    </header>
+    <div class="box-body art-content" id="app">
+        <ul>
+            {#articles}
+            <li class="art-item" data-id="{_id}">
+                <router-link to="/detail/{_id}">{title}</router-link>
+                <span class="time">{publishDate}</span><span class=" author">{author}</span>
+            </li>
+            {/articles}
+        </ul>
+        <div class="view">
+            <router-view></router-view>
+        </div>
     </div>
 </div>
 {/content}
+
 {<bodyContent}
+<div>
+<!--<div class="view-wrap article-detail-box">-->
+    <!--<div class="wrap-close">-->
+        <!--<i class="fa fa-close fa-2x"></i>-->
+    <!--</div>-->
+    <!--<div class="main-content">-->
+
+
+    <!--</div>-->
+<!--</div>-->
+</div>
 {/bodyContent}
 
 {<selfJs}
 <script src="/static/js/dashboard.bundle.js"></script>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="/assets/js/vue.js"></script>
+<script src="/assets/js/vue-router.js"></script>
 <script src="/assets/js/sp-art.js"></script>
+
 {/selfJs}

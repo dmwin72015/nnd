@@ -18,7 +18,39 @@ function getArticle(req, res, next) {
     });
 }
 
+function getDetailArticle(req, res, next) {
+    var action = req.params.action;
+    var id = req.params.id;
+    console.log(action);
+    if (action == 'detail') {
+        articleMod.find({_id: id}).lean(true).exec((err, doc)=> {
+            if (err) {
+                res.json({
+                    code: '-1',
+                    data: err,
+                    msg: 'error'
+                });
+                return;
+            }
+            res.json({
+                code: '1',
+                data: doc[0],
+                msg: 'success'
+            });
+        });
+    } else {
+        res.json({
+            code: '-2',
+            msg: '暂未开放'
+        })
+    }
+}
+
 
 module.exports = {
-    '/': getArticle
-}
+    '/': getArticle,
+
+    '/:action/:id': {
+        post: getDetailArticle
+    }
+};
