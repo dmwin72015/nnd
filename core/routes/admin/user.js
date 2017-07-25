@@ -47,7 +47,6 @@ let reqPostHander = {
 module.exports = {
     '/': function(req, res, next) {
         var curUser = req.session.loginInfo;
-        console.log(req.session);
         if (curUser) {
             userMod.findOne({ _id: curUser._id }, function(err, data) {
                 if(err || !data){
@@ -82,7 +81,7 @@ module.exports = {
                 res.render('user/index.html',re_data);
             });
         }else{
-           res.redirect('/user/login'); 
+           res.redirect('/admin/login'); 
         }
     },
 
