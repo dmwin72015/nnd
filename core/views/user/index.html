@@ -16,7 +16,7 @@
     </header>
     <div class="box-body">
         <!-- <user-info items="{tmpl_data}" v-bind:get-status="getStatus"></user-info> -->
-        <table class="borded userinfo-table">
+        <!-- <table class="borded userinfo-table">
         <tbody>
             <tr class="info-item">
                 <th></th>
@@ -31,11 +31,8 @@
             </tr>
             {/tmplData}
             </tbody>
-        </table>
-        <div class="btn-group userinfo-tool">
-            <span v-if="getStatus" class="btn btn-danger" v-on:click="changeModel">修改</span>
-            <span v-else class="btn btn-green" v-on:click="saveInfo">保存</span>
-        </div>
+        </table> -->
+        <user-view :save-info="saveInfo" :items="{userData}" :status="getStatus" :change-model="changeModel"></user-view>
     </div>
 </div>
 {/content}
