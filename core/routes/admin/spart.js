@@ -82,13 +82,13 @@ function getArtControl(req, res, next) {
         });
         return;
     }
-    // if (!req.session.loginInfo) {
-    //     res.json({
-    //         code: '-3',
-    //         msg: '请登录之后操作'
-    //     });
-    //     return;
-    // }
+    if (!req.session.loginInfo) {
+        res.json({
+            code: '-3',
+            msg: '请登录之后操作'
+        });
+        return;
+    }
 
     let options = {
         url: url,
@@ -106,24 +106,17 @@ function getArtControl(req, res, next) {
             return;
         }
         var srcData = getArticleInfo(body);
-        res.json({
-            code: '1',
-            data: srcData,
-            body: body,
-            msg: 'success'
+        srcData.editor = req.session.loginInfo._id;
+        var article = new articleMod(srcData);
+        article.save().then((doc) => {
+            res.json({
+                code: "1",
+                data: doc,
+                msg: 'success'
+            })
+        }).catch((err) => {
+            res.json(err);
         });
-        // srcData.editor = req.session.loginInfo._id;
-        // var article = new articleMod(srcData);
-        // article.save()
-        //     .then((doc) => {
-        //         res.json({
-        //             code: "1",
-        //             data: doc,
-        //             msg: 'success'
-        //         })
-        //     }).catch((err) => {
-        //     res.json(err);
-        // });
     })
 }
 

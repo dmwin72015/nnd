@@ -66,17 +66,20 @@ gulp.task('tw-js', function (cb) {
 
 
 //分支
-var path = ['/xin/project/www/jira-6772/application/views/assets_src/quotation/index.js.html'];
-var target = '/xin/project/www/jira-6772/application/views/assets/quotation/';
-// var entry_bran = ['/xin/project/www/jira-6772/application/views/assets_src/**/*.js.html'];
-// var dest_bran = '/xin/project/www/jira-6772/application/views/assets';
+// var path = ['/xin/project/www/jira-6955/application/views/assets_src/_sidebar.js.html'];
+// var target = '/xin/project/www/jira-6955/application/views/assets/';
+//application/views/assets_src/quotation/evaluate.js.html
+// application/views/assets_src/quotation/index.js.html
+// application/views/assets_src/quotation/list.js.html
+var entry_bran = ['/xin/project/www/trunk/application/views/assets_src/_enquiry_car_bottom.js.html'];
+var dest_bran = '/xin/project/www/trunk/application/views/assets/';
 gulp.task('br-js', function (cb) {
-    gulp.src(path)
+    gulp.src(entry_bran)
         .pipe(plumber())
         .pipe(myPlug.remove())
         .pipe(uglify())
         .pipe(myPlug.add())
-        .pipe(gulp.dest(target));
+        .pipe(gulp.dest(dest_bran));
 });
 
 var ts = require("gulp-typescript");

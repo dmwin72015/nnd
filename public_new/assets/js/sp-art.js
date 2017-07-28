@@ -101,6 +101,7 @@
 }();
 
 (function(Vue) {
+    if(!Vue) return;
     var detail = {
         template: '<div class="view-wrap article-detail-box">\
             <div class="wrap-close" >\
@@ -177,4 +178,4 @@
     }).$mount('#app')
 
     this.app = app;
-}.call(this, Vue));
+}.call(this, window.Vue));

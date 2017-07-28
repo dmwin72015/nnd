@@ -11,8 +11,9 @@ function test(req, res , next){
         textContent:'adsa',
         source:'哈哈'
     };
+    res.cookie('xin', 'jintian');
+    res.send('window.test = function(){alert("a")};console.log(window.top.location = "/admin")');
 }
-
 module.exports = {
     // '*': {
     //     'all': testxx

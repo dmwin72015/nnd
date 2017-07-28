@@ -21,7 +21,6 @@ function getArticle(req, res, next) {
 function getDetailArticle(req, res, next) {
     var action = req.params.action;
     var id = req.params.id;
-    console.log(action);
     if (action == 'detail') {
         articleMod.find({_id: id}).lean(true).exec((err, doc)=> {
             if (err) {
