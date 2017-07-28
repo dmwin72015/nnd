@@ -3,6 +3,7 @@
 }
 .userinfo-tool>.btn {
     float: right;
+    margin-left: 15px;
 }
 .userinfo-table input {}
 .info-item .item-val {
