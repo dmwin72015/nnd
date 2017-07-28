@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script>
+  window.name = "我是老夫请"
+  </script>
+</head>
+
+<body>
+  <h3>这是父级</h3>
+  <input type="button" value="改变hash" onclick="changeHash()">
+  <iframe id="ifm" src="http://7004.www.xin.com/assets/test.html" frameborder="0"></iframe>
+</body>
+<script>
+var oifm = document.getElementById("ifm");
+var obj = oifm.contentWindow;
+
+function changeHash(){
+	oifm.src="http://7004.www.xin.com/assets/test.html#"+ Date.now();
+}
+</script>
+
+</html>
