@@ -1,18 +1,22 @@
 ;
 (function(global, $, Vue) {
-    Vue.component('user-view', {
-        template: '<div> \
+  Vue.component('user-view', {
+    template: '<div> \
             <table class="borded userinfo-table">\
             <tbody>\
                 <tr class="info-item">\
                     <th></th>\
                     <th>内容</th>\
                 </tr>\
-                <tr class="info-item" v-for="item in items" >\
+                <tr class="info-item" v-for="(item,key) in items" >\
                     <td>{{item.title}}</td>\
                     <td>\
-                        <span v-if="status" class="item-val">{{item.val}}</span> \
-                        <input v-else class="item-val" type="text" v-model="item.val">\
+                        <template v-if="!status && item.edit">\
+                            <input  class="item-val" type="text" v-model="item.val">\
+                        </template>\
+                        <template v-else>\
+                            <span class="item-val">{{item.val}}</span> \
+                        </template>\
                     </td>\
                 </tr>\
                 </tbody>\
@@ -27,37 +31,59 @@
                 </template>\
             </div>\
         </div>',
-        props: ['items', 'status', 'saveInfo', 'changeModel']
-    });
-    var userInfo = new Vue({
-        el:'#user',
-        data: {
-            model: 'display',
-            infoItems: [
-                { title: 'ID', val: '测试' },
-                { title: '姓名', val: '测试' },
-                { title: '年龄', val: '测试' },
-                { title: '性别', val: '测试' },
-                { title: '昵称', val: '测试' },
-                { title: '组', val: '测试' },
-                { title: '注册时间', val: '测试' }
-            ]
-        },
-        methods: {
-            changeModel: function() {
-                this.model = this.model == 'edit' ? 'display' : 'edit';
-            },
-            saveInfo: function() {
-                alert('a')
-            },
-            cancle: function() {
-                this.model = 'display';
-            }
-        },
-        computed: {
-            getStatus: function() {
-                return this.model === 'display';
-            }
-        }
-    });
+    props: ['userItems', 'status', 'changeModel'],
+    data: function() {
+      console.log(this.userItems);
+      return { items: this.userItems }
+    },
+    methods: {
+      saveInfo: function() {
+        var updata = {
+          uid: this.items.uid.val,
+          uname: this.items.uname.val,
+          age: this.items.age.val,
+          sex: this.items.sex.val,
+          nick_name: this.items.nick_name.val
+        };
+        var myInit = {
+          method: 'POST',
+          cache: 'default',
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          body: $.param(updata)
+        };
+        fetch('/admin/user/update', myInit).then((response) => {
+          return response.json()
+        }).then((data) => {
+          if (data.code == 1) {
+            window.location.reload();
+          } else {
+            alert('更新失败');
+          }
+        }).catch((err) => {
+          console.log(err);
+        });
+      },
+    }
+  });
+  var userInfo = new Vue({
+    el: '#user',
+    data: {
+      model: 'display'
+    },
+    methods: {
+      changeModel: function() {
+        this.model = this.model == 'edit' ? 'display' : 'edit';
+      },
+      cancle: function() {
+        this.model = 'display';
+      }
+    },
+    computed: {
+      getStatus: function() {
+        return this.model === 'display';
+      }
+    }
+  });
 })(window, jQuery, Vue)
