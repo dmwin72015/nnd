@@ -1,7 +1,7 @@
 ;
-(function(global, $, Vue) {
-  Vue.component('user-view', {
-    template: '<div> \
+(function (global, Vue) {
+    Vue.component('user-view', {
+        template: '<div> \
             <table class="borded userinfo-table">\
             <tbody>\
                 <tr class="info-item">\
@@ -16,6 +16,7 @@
                         </template>\
                         <template v-else>\
                             <span class="item-val">{{item.val}}</span> \
+                            <span v-if="key == \'uid\'" style="color:red;">(ID不允许修改)</span> \
                         </template>\
                     </td>\
                 </tr>\
@@ -31,59 +32,61 @@
                 </template>\
             </div>\
         </div>',
-    props: ['userItems', 'status', 'changeModel'],
-    data: function() {
-      console.log(this.userItems);
-      return { items: this.userItems }
-    },
-    methods: {
-      saveInfo: function() {
-        var updata = {
-          uid: this.items.uid.val,
-          uname: this.items.uname.val,
-          age: this.items.age.val,
-          sex: this.items.sex.val,
-          nick_name: this.items.nick_name.val
-        };
-        var myInit = {
-          method: 'POST',
-          cache: 'default',
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
-          body: $.param(updata)
-        };
-        fetch('/admin/user/update', myInit).then((response) => {
-          return response.json()
-        }).then((data) => {
-          if (data.code == 1) {
-            window.location.reload();
-          } else {
-            alert('更新失败');
-          }
-        }).catch((err) => {
-          console.log(err);
-        });
-      },
-    }
-  });
-  var userInfo = new Vue({
-    el: '#user',
-    data: {
-      model: 'display'
-    },
-    methods: {
-      changeModel: function() {
-        this.model = this.model == 'edit' ? 'display' : 'edit';
-      },
-      cancle: function() {
-        this.model = 'display';
-      }
-    },
-    computed: {
-      getStatus: function() {
-        return this.model === 'display';
-      }
-    }
-  });
-})(window, jQuery, Vue)
+        props: ['userItems', 'status', 'changeModel'],
+        data: function () {
+            return {items: this.userItems}
+        },
+        methods: {
+            saveInfo: function () {
+                var updata = {
+                    uid: this.items.uid.val,
+                    uname: this.items.uname.val,
+                    age: this.items.age.val,
+                    sex: this.items.sex.val,
+                    nick_name: this.items.nick_name.val
+                };
+                var parse_data = Object.keys(updata).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(updata[key])).join('&');
+                var myInit = {
+                    method: 'POST',
+                    cache: 'default',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    // body: $.param(updata)
+                    body: parse_data
+                };
+
+                fetch('/admin/user/update', myInit).then((response) => {
+                    return response.json();
+                }).then((data) => {
+                    if (data.code == 1) {
+                        window.location.reload();
+                    } else {
+                        alert('更新失败');
+                    }
+                }).catch((err) => {
+                    console.log(err);
+                });
+            },
+        }
+    });
+    var userInfo = new Vue({
+        el: '#user',
+        data: {
+            model: 'display'
+        },
+        methods: {
+            changeModel: function () {
+                this.model = this.model == 'edit' ? 'display' : 'edit';
+            },
+            cancle: function () {
+                this.model = 'display';
+            }
+        },
+        computed: {
+            getStatus: function () {
+                return this.model === 'display';
+            }
+        }
+    });
+})(window, Vue)

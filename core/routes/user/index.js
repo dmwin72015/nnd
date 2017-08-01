@@ -74,7 +74,6 @@ let actions = {
 module.exports = {
     '/:id': {
         'post': function (req, res, next) {
-            console.log(req.originalUrl);
             actions[req.params.id] ? actions[req.params.id].apply(this, arguments) : next();
         }
     }

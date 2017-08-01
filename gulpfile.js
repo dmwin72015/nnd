@@ -66,12 +66,13 @@ gulp.task('tw-js', function (cb) {
 
 
 //分支
+
 // var path = ['/xin/project/www/jira-6955/application/views/assets_src/_sidebar.js.html'];
 // var target = '/xin/project/www/jira-6955/application/views/assets/';
 //application/views/assets_src/quotation/evaluate.js.html
 // application/views/assets_src/quotation/index.js.html
 // application/views/assets_src/quotation/list.js.html
-var entry_bran = ['/xin/project/www/trunk/application/views/assets_src/_enquiry_car_bottom.js.html'];
+var entry_bran = ['/xin/project/www/trunk/application/views/assets_src/_sidebar.js.html'];
 var dest_bran = '/xin/project/www/trunk/application/views/assets/';
 gulp.task('br-js', function (cb) {
     gulp.src(entry_bran)

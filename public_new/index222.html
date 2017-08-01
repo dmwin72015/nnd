@@ -1,191 +1,302 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>这是首页</title>
-    <link rel="stylesheet" href="/static/css/tp-vote.css">
+  <meta charset="utf-8" />
+  <title>Demo</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0">
+  <meta name="format-detection" content="telephone=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="keywords" content="{block name=" keywords "}二手车,优信二手车,二手车交易市场,二手车分期付款,二手车估价,二手车评估,5万以下二手车,二手车个人出售,买车,卖车{/block}" />
+  <meta name="description" content="{block name='description'}【优信二手车】提供海量优质二手车源,30天包退,100%真实车源,专业车况检测,精准价格评估,审核严格,绝无事故车,0佣金,可付一半分期付款买车,金融策略灵活,是国内领先,口碑绝佳的二手车交易平台{/block}" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0">
+  <link rel="stylesheet" href="http://s1.xinstatic.com/m/css/base.css?v=17071917">
+  <style type="text/css">
+    body,
+  h3,
+  h1,
+  p {
+    margin: 0;
+  }
 
-    <script>
-        (function(funcName, baseObj) {
-            "use strict";
-            funcName = funcName || "ready";
-            baseObj = baseObj || window;
-            var readyList = [];
-            var readyFired = false;
-            var readyEventHandlersInstalled = false;
-            function ready() {
-                if (!readyFired) {
-                    readyFired = true;
-                    for (var i = 0; i < readyList.length; i++) {
-                        readyList[i].fn.call(window, readyList[i].ctx);
-                    }
-                    // allow any closures held by these functions to free
-                    readyList = [];
-                }
-            }
+  body,
+  html {
+    height: 100%;
+  }
 
-            function readyStateChange() {
-                if ( document.readyState === "complete" ) {
-                    ready();
-                }
-            }
+  #outer {
+    width: 430px;
+    height: 100%;
+    margin: 0 auto;
+    display: table;
+    text-align: center;
+  }
 
-            baseObj[funcName] = function(callback, context) {
-                if (typeof callback !== "function") {
-                    throw new TypeError("callback for docReady(fn) must be a function");
-                }
-                // if ready has already fired, then just schedule the callback
-                // to fire asynchronously, but right away
-                if (readyFired) {
-                    setTimeout(function() {callback(context);}, 1);
-                    return;
-                } else {
-                    // add the function and context to the list
-                    readyList.push({fn: callback, ctx: context});
-                }
-                // IE下判断document.readyState === "complete" ,其他浏览器是 "interactive"
-                if (document.readyState === "complete" || (!document.attachEvent && document.readyState === "interactive")) {
-                    setTimeout(ready, 1);
-                } else if (!readyEventHandlersInstalled) {
-                    // otherwise if we don't have event handlers installed, install them
-                    if (document.addEventListener) {
-                        // first choice is DOMContentLoaded event
-                        document.addEventListener("DOMContentLoaded", ready, false);
-                        // backup is window load event
-                        window.addEventListener("load", ready, false);
-                    } else {
-                        // must be IE
-                        document.attachEvent("onreadystatechange", readyStateChange);
-                        window.attachEvent("onload", ready);
-                    }
-                    readyEventHandlersInstalled = true;
-                }
-            }
-        })("ready", window);
-    </script>
-    <style>
-        #bg:hover{
-            background-color: #c9302c;
-        }
-        .test{
-            width: 300px;
-            height:300px;
-            background: #f20d0d;
-        }
-        .test:hover{
-            background: #D9DEE4;
-            font-size: 40px;
-        }
-        .test::after{
-            content: "hello world";
-            font-size: 20px;
-            font-style: oblique;
-        }
-        .test:hover::after{
-            color: #0f88eb;
-        }
-    </style>
-    <script>
-        ready(function () {
-            var oDiv = document.querySelector('#test');
+  #middle {
+    display: table-cell;
+    vertical-align: middle;
+  }
 
-            var oStyles = window.getComputedStyle(oDiv,':hover');
+  #inner {
+    width: 430px;
+  }
 
+  input {
+    outline: none;
+  }
 
-            console.log(oStyles['background']);
+  .content {
+    border: 1px solid #e5e5e5;
+    padding-bottom: 20px;
+    background-color: #fff;
+    padding-top: 15px;
+  }
 
-        },{name:123});
+  .form-control {
+    display: block;
+    /*width: 410px;*/
+    width: 360px;
+    margin: 0 auto;
+    line-height: 38px;
+    border: 1px solid #e5e5e5;
+    font-size: 16px;
+  }
 
-    </script>
+  .content .form-control {
+    margin-top: 15px;
+    overflow: hidden;
+  }
 
+  .content .form-control.btn {
+    border: 1px solid #fc5b40;
+    line-height: 38px;
+  }
+
+  .form-control.hidden {
+    visibility: hidden;
+  }
+
+  .form-control.error {
+    background-color: #fee8ef;
+    border-color: #f1a1a1;
+    color: #ee394b;
+    line-height: 30px;
+  }
+
+  .form-ipt,
+  .vcode {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .form-ipt {
+    font-size: 16px;
+    padding: 2px 12px;
+    border: none;
+    border-right: 1px solid #e5e5e5;
+  }
+
+  .content.www .form-ipt {
+    width: 170px;
+  }
+
+  .vcode {
+    /**
+            width: 83px;
+            height: 36px;
+            **/
+    width: 150px;
+    height: 40px;
+    /*height: 52px;*/
+    /*padding-left: 5px;*/
+    float: right;
+  }
+
+  .vcode img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .sub-btn {
+    display: block;
+    color: #fff;
+    background: #fc5b40;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .logo {
+    text-align: center;
+    vertical-align: middle;
+    padding-bottom: 10px;
+    margin-top: -50px;
+  }
+
+  .logo img {
+    width: 260px;
+  }
+
+  .error {
+    text-align: center;
+    color: #ee394b;
+    font-size: 14px;
+  }
+
+  .title {
+    text-align: center;
+    font-size: 16px;
+    color: #2b2b2b;
+    font-weight: bold;
+  }
+
+  @media only screen and (max-width: 420px) {
+    #outer {
+      width: 100%;
+    }
+    body {
+      background-color: #fff;
+    }
+    h3 {
+      margin: 0;
+    }
+    .wrap {
+      width: 100%;
+    }
+    .logo {
+      padding-bottom: 0;
+    }
+    .logo img {
+      width: 5.11rem;
+    }
+
+    .content {
+      width: 100%;
+      border: none;
+    }
+
+    .form-control {
+      width: 5.54rem;
+      background-color: #f2f2f2;
+      border: none;
+      line-height: 0.85rem;
+    }
+
+    .form-control input {
+      background-color: #f2f2f2;
+      border-right-color: #bbb;
+      color: #1b1b1b;
+      width: 3.54rem;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    .vcode {
+      width: 1.31rem;
+      height: 0.58rem;
+      margin-left: 0.06rem;
+      padding-left: 0;
+      float: none;
+    }
+
+    .title {
+      width: 100%;
+      font-size: 0.29rem;
+      font-weight: normal;
+    }
+
+    .sub-btn {
+      font-size: 0.34rem;
+      line-height: 0.85rem;
+      background-color: #f85d00;
+    }
+  </style>
 </head>
 
 <body>
-    <div class="test" id="test">
-        div中
-
+  <div id="outer">
+    <div id="middle">
+      <div class="logo">
+        <img src="/LOGO-03.png" alt="">
+      </div>
+      <div class="content www">
+        <h3 class="title">人机交互校验</h3>
+        <p class="form-control">
+          <input name="vcode" type="text" class="form-ipt" maxlength="4" placeholder="请输入验证码">
+          <span class="vcode">
+                <img src="//6877.xin.com/checker/verify_code/?t={$smarty.now}" alt="">
+            </span>
+          <!--  -->
+        </p>
+        <p class="form-control error">
+          提交过于频繁，需要进行人机校验
+        </p>
+        <p class="form-control btn">
+          <span class="sub-btn">提交</span>
+        </p>
+      </div>
     </div>
-
-    <img src="/static/img/quantou.png" alt="">
-    <div id="bg">
-        <canvas class="particles-js-canvas-el"></canvas>
-        lulasdada
-    </div>
-    <p>
-        <input type="search" id="sea_bran">
-    </p>
-    <div>
-        <ul id="list"></ul>
-    </div>
+  </div>
 </body>
-<script src="/assets/js/fuzzy.js"></script>
 <script>
-var list = ['baconing', 'narwhal', 'a mighty bear canoe', '中文', '宝马', '奔驰', 'benchi', 'baoma'];
+// 文本框获取焦点
+$('.form-ipt').focus();
+// 错误提示
+function add_hint(select, msg, type, page) {
+  if (select) {
+    $('.error').text(msg);
+    // select.before('<b class="error">' + msg + '</b>');
+  } else {
+    $('.error').text('提交过于频繁，需要进行人机校验');
+  }
 
-var _data = {
-    '12': {
-        ename: 'benchi',
-        name: '奔驰'
+}
+// 回车键提交页面
+$(document).bind('keydown', function(event) {
+  var event = window.event ? window.event : event;
+  if (event.keyCode == 13) {
+    $(".sub-btn").click();
+  }
+});
+// 点击图片验证码
+$(".vcode").on('click', function() {
+  add_hint();
+  $(this).find('img').attr('src', '/checker/verify_code/?t=' + (new Date).getTime());
+});
+// 文本框点击，清空错误提示
+$(".form-ipt").on('click', function() {
+  add_hint();
+});
+// 提交表单
+$(".sub-btn").on('click', function() {
+  if ($.trim($('.form-ipt').val()) == '') {
+    add_hint($('.btn'), '请输入验证码~', 'error');
+    $('.form-ipt').focus();
+    return false;
+  }
+  $.ajax({
+    url: '/checker/validate/',
+    type: 'post',
+    data: {
+      'vcode': $('.form-ipt').val(),
+      't': (new Date).getTime()
     },
-    '13': {
-        ename: 'baoma',
-        name: '宝马'
-    }
-};
-
-var _data2 = [{
-    ename: 'benchi',
-    name: '奔驰'
-}, {
-    ename: 'baoma',
-    name: '宝马'
-}];
-
-for (var i = 0; i < 300; i++) {
-    _data2.push({
-        ename: 'baoma' + i,
-        name: '宝马' + i
-    });
-}
-var options = {
-    pre: '<',
-    post: '>',
-    extract: function(el) {
-        return el.ename + el.name;
-    }
-};
-var regCh = /^[\u4E00-\u9FA5]$/g;
-
-var results = fuzzy.filter('b', list)
-var oInput = document.querySelector('#sea_bran');
-var oList = document.querySelector('#list');
-oInput.onkeyup = function() {
-    var val = this.value;
-    if (!val) {
-        oList.innerHTML = '';
+    success: function(data) {
+      if (data.error_code == 200) {
+        window.location.href = data.error_msg;
         return;
+      } else {
+        add_hint($('.btn'), data.error_msg, 'error');
+        $('.form-ipt').focus();
+      }
+    },
+    error: function() {
+      add_hint($('.btn'), '服务器繁忙');
+      $('.vcode').click();
     }
-    var results = fuzzy.filter(val, _data2, options);
-    // console.log(results);
-    render(results);
-}
-
-
-function render(data) {
-    var str = '';
-    for (var i = 0; i < data.length; i++) {
-        var original = data[i].original;
-        str += '<li>' + original.name + '</li>'
-    }
-    oList.innerHTML = str;
-}
+  });
+});
 </script>
-<script>
-    setInterval(function(){
-        document.querySelector('#list').innerText = 'a'+Date.now()/1000;
-    },1200)
-</script>
+
 </html>
